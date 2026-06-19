@@ -206,9 +206,8 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     padding: 8px 12px;
-    border: none;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
     background: none;
     color: #3F2F27;
     cursor: pointer;
@@ -218,7 +217,7 @@
 
   .tabbed-products__tab--active {
     color: var(--tabbed-products-tab-active, #D53E27);
-    border-bottom-color: var(--tabbed-products-tab-active, #D53E27);
+    border-color: var(--tabbed-products-tab-active, #D53E27);
   }
 
   .tabbed-products__shop-all {
@@ -310,7 +309,7 @@
     },
     {
       "type": "header",
-      "content": "Collections"
+      "content": "t:content.collections"
     },
     {
       "type": "collection",
@@ -356,7 +355,7 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "t:content.colors"
     },
     {
       "type": "color",
@@ -384,7 +383,7 @@
     },
     {
       "type": "header",
-      "content": "Padding"
+      "content": "t:content.padding"
     },
     {
       "type": "range",
