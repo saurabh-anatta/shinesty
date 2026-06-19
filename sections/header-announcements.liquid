@@ -36,10 +36,15 @@
       {% content_for 'blocks' %}
     </div>
   </announcement-bar-component>
+
+  <button class="announcement-bar__dismiss" aria-label="Dismiss announcement">
+    <img src="{{ 'close.svg' | asset_url }}" alt="Close" width="16" height="14" loading="lazy">
+  </button>
 </aside>
 
 {% stylesheet %}
   .announcement-bar {
+    position: relative;
     border-block-end: var(--border-bottom-width) solid var(--color-border);
   }
 
@@ -121,7 +126,44 @@
     position: absolute;
     inset: 0;
   }
+
+  .announcement-bar__dismiss {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .announcement-bar__dismiss img {
+    width: 16px;
+    height: 14px;
+    filter: brightness(0) invert(1);
+  }
 {% endstylesheet %}
+
+<script>
+  (function() {
+    var sectionEl = document.currentScript.closest('.shopify-section');
+    if (sessionStorage.getItem('announcement-dismissed') === 'true') {
+      sectionEl.style.display = 'none';
+    }
+    var dismissBtn = sectionEl.querySelector('.announcement-bar__dismiss');
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', function() {
+        sectionEl.style.display = 'none';
+        sessionStorage.setItem('announcement-dismissed', 'true');
+      });
+    }
+  })();
+</script>
 
 {% schema %}
 {

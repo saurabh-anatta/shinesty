@@ -1165,6 +1165,21 @@
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
   }
+
+  /* Custom header styling overrides */
+  .header:not(.header--compact) {
+    --header-padding: 20px;
+  }
+
+  /* Dark overlay behind mega menu when open */
+  .header__underlay-open::after {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Header column grid gap override */
+  .header__columns {
+    grid-gap: 21px;
+  }
 {% endstylesheet %}
 
 {% unless request.design_mode %}

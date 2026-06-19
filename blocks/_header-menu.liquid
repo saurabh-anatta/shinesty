@@ -124,24 +124,34 @@
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
                 {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-                <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                  <div
-                    class="mega-menu__grid"
-                    data-menu-grid-id="{{ list_id }}"
-                  >
-                    {% render 'mega-menu-list',
+                {% if menu_content_type == 'custom' %}
+                  <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                    {% render 'mega-menu-custom',
                       parent_link: link,
-                      id: list_id,
-                      section: section,
-                      grid_columns_count: 6,
-                      grid_columns_count_tablet: 4,
-                      grid_columns_count_collection_images: 8,
-                      menu_content_type: menu_content_type,
-                      content_aspect_ratio: ratio,
-                      image_border_radius: image_border_radius
+                      block: block,
+                      section: section
                     %}
                   </div>
-                </div>
+                {% else %}
+                  <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                    <div
+                      class="mega-menu__grid"
+                      data-menu-grid-id="{{ list_id }}"
+                    >
+                      {% render 'mega-menu-list',
+                        parent_link: link,
+                        id: list_id,
+                        section: section,
+                        grid_columns_count: 6,
+                        grid_columns_count_tablet: 4,
+                        grid_columns_count_collection_images: 8,
+                        menu_content_type: menu_content_type,
+                        content_aspect_ratio: ratio,
+                        image_border_radius: image_border_radius
+                      %}
+                    </div>
+                  </div>
+                {% endif %}
               </div>
             </div>
           {%- endif -%}
@@ -699,6 +709,28 @@
   .menu-list__list-item:not(:has([aria-expanded='true'])) > .menu-list__submenu product-component {
     display: none;
   }
+
+  /* Custom nav link styling overrides */
+  .menu-list__link {
+    font-weight: 700;
+    letter-spacing: -0.25px;
+  }
+
+  /* Active nav link underline indicator */
+  .menu-list__link--active .menu-list__link-title {
+    position: relative;
+  }
+
+  .menu-list__link--active .menu-list__link-title::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 2px;
+    background-color: var(--menu-top-level-font-color);
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -849,6 +881,10 @@
         {
           "value": "featured_collections",
           "label": "t:options.featured_collections"
+        },
+        {
+          "value": "custom",
+          "label": "Custom with categories"
         }
       ],
       "default": "collection_images"
@@ -905,6 +941,48 @@
       "unit": "px",
       "default": 0,
       "visible_if": "{{ block.settings.menu_style != 'text' }}"
+    },
+    {
+      "type": "header",
+      "content": "Custom mega menu"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image_1",
+      "label": "Promo image 1",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "text",
+      "id": "promo_heading_1",
+      "label": "Promo heading 1",
+      "default": "Bundle & Save up to 33%",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "url",
+      "id": "promo_link_1",
+      "label": "Promo link 1",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image_2",
+      "label": "Promo image 2",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "text",
+      "id": "promo_heading_2",
+      "label": "Promo heading 2",
+      "default": "Boob Hammocks",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "url",
+      "id": "promo_link_2",
+      "label": "Promo link 2",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
     },
     {
       "type": "header",

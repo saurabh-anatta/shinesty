@@ -1,0 +1,328 @@
+{%- doc -%}
+  Renders a custom mega menu with icon-pill category buttons, text link columns, and promo image cards.
+
+  @param {object} parent_link - The parent navigation link whose children are rendered.
+  @param {object} block - The header-menu block (provides promo image settings).
+  @param {object} section - The section object.
+
+  @example
+  {% render 'mega-menu-custom', parent_link: link, block: block, section: section %}
+{%- enddoc -%}
+
+{% liquid
+  assign block_settings = block.settings
+  assign first_group = parent_link.links | first
+  assign remaining_links = parent_link.links | slice: 1, 100
+%}
+
+<div class="mega-menu-custom">
+  {%- comment -%} Left column: icon-pill category buttons {%- endcomment -%}
+  {%- if first_group -%}
+    <div class="mega-menu-custom__pills-column">
+      <h3 class="mega-menu-custom__column-heading">{{ first_group.title }}</h3>
+      <div class="mega-menu-custom__pills-list">
+        {%- for child_link in first_group.links -%}
+          {%- liquid
+            assign handle = child_link.handle | downcase
+            assign icon_file = ''
+            case handle
+              when 'thongs'
+                assign icon_file = 'outline-thong-1.svg'
+              when 'cheekies'
+                assign icon_file = 'outline-cheeky-1.svg'
+              when 'boyshorts'
+                assign icon_file = 'outline-boyshort-1.svg'
+              when 'bikinis'
+                assign icon_file = 'outline-bikini-1.svg'
+              when 'womens-boxers', 'women-s-boxers', 'womens-boxer'
+                assign icon_file = 'outline-w-boxer-1.svg'
+              when 'bralette', 'bralettes'
+                assign icon_file = 'bralette-busty-outline-1.svg'
+              when 'packs'
+                assign icon_file = 'outline-thong-1-2.svg'
+            endcase
+          -%}
+          <a
+            href="{{ child_link.url }}"
+            class="mega-menu-custom__pill{% if forloop.first %} mega-menu-custom__pill--active{% endif %}"
+          >
+            {%- if icon_file != '' -%}
+              <span class="mega-menu-custom__pill-icon">
+                <img
+                  src="{{ icon_file | asset_url }}"
+                  alt=""
+                  width="32"
+                  height="32"
+                  loading="lazy"
+                  style="width: 32px; height: 32px; object-fit: contain;"
+                >
+              </span>
+            {%- endif -%}
+            <span class="mega-menu-custom__pill-text">{{ child_link.title }}</span>
+          </a>
+        {%- endfor -%}
+      </div>
+      {%- if first_group.url != blank -%}
+        <a href="{{ first_group.url }}" class="mega-menu-custom__shop-all">
+          <span>Shop All {{ first_group.title }}</span>
+          <img
+            src="{{ 'chevron-up.svg' | asset_url }}"
+            alt=""
+            width="16"
+            height="16"
+            loading="lazy"
+            class="mega-menu-custom__chevron"
+          >
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Middle columns: text link groups {%- endcomment -%}
+  <div class="mega-menu-custom__text-columns">
+    {%- for link_group in remaining_links -%}
+      <div class="mega-menu-custom__column">
+        <h3 class="mega-menu-custom__column-heading">{{ link_group.title }}</h3>
+        <ul class="mega-menu-custom__link-list list-unstyled">
+          {%- for child_link in link_group.links -%}
+            <li>
+              {%- if forloop.last -%}
+                <a href="{{ child_link.url }}" class="mega-menu-custom__shop-all">
+                  <span>{{ child_link.title }}</span>
+                  <img
+                    src="{{ 'chevron-up.svg' | asset_url }}"
+                    alt=""
+                    width="16"
+                    height="16"
+                    loading="lazy"
+                    class="mega-menu-custom__chevron"
+                  >
+                </a>
+              {%- else -%}
+                <a href="{{ child_link.url }}" class="mega-menu-custom__link">
+                  {{ child_link.title }}
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} Right column: promo image cards {%- endcomment -%}
+  <div class="mega-menu-custom__promo-column">
+    {%- if block_settings.promo_image_1 != blank -%}
+      <a
+        href="{{ block_settings.promo_link_1 | default: '#' }}"
+        class="mega-menu-custom__promo-card"
+      >
+        {%- assign promo_img_1 = block_settings.promo_image_1 -%}
+        <img
+          src="{{ promo_img_1 | image_url: width: 744 }}"
+          alt="{{ block_settings.promo_heading_1 | escape }}"
+          width="372"
+          height="248"
+          loading="lazy"
+          class="mega-menu-custom__promo-image"
+        >
+        <div class="mega-menu-custom__promo-overlay"></div>
+        {%- if block_settings.promo_heading_1 != blank -%}
+          <span class="mega-menu-custom__promo-heading">{{ block_settings.promo_heading_1 }}</span>
+        {%- endif -%}
+      </a>
+    {%- endif -%}
+
+    {%- if block_settings.promo_image_2 != blank -%}
+      <a
+        href="{{ block_settings.promo_link_2 | default: '#' }}"
+        class="mega-menu-custom__promo-card"
+      >
+        {%- assign promo_img_2 = block_settings.promo_image_2 -%}
+        <img
+          src="{{ promo_img_2 | image_url: width: 744 }}"
+          alt="{{ block_settings.promo_heading_2 | escape }}"
+          width="372"
+          height="248"
+          loading="lazy"
+          class="mega-menu-custom__promo-image"
+        >
+        <div class="mega-menu-custom__promo-overlay"></div>
+        {%- if block_settings.promo_heading_2 != blank -%}
+          <span class="mega-menu-custom__promo-heading">{{ block_settings.promo_heading_2 }}</span>
+        {%- endif -%}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .mega-menu-custom {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+    width: 100%;
+  }
+
+  .mega-menu-custom__pills-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 220px;
+    min-width: 220px;
+  }
+
+  .mega-menu-custom__pills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mega-menu-custom__pill {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 56px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: #F9EFE1;
+    border: 1px solid #F9EFE1;
+    text-decoration: none;
+    color: #3F2F27;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    transition: border-color 0.2s ease;
+  }
+
+  .mega-menu-custom__pill:hover,
+  .mega-menu-custom__pill--active {
+    border-color: #D53E27;
+    color: #D53E27;
+  }
+
+  .mega-menu-custom__pill-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .mega-menu-custom__pill-text {
+    white-space: nowrap;
+  }
+
+  .mega-menu-custom__text-columns {
+    display: flex;
+    gap: 40px;
+    flex: 1;
+  }
+
+  .mega-menu-custom__column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .mega-menu-custom__column-heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: #3F2F27;
+    margin: 0;
+  }
+
+  .mega-menu-custom__link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mega-menu-custom__link {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #3F2F27;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .mega-menu-custom__link:hover {
+    color: #D53E27;
+  }
+
+  .mega-menu-custom__shop-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    color: #3F2F27;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .mega-menu-custom__shop-all:hover {
+    color: #D53E27;
+  }
+
+  .mega-menu-custom__chevron {
+    width: 16px;
+    height: 16px;
+    transform: rotate(90deg);
+    flex-shrink: 0;
+  }
+
+  .mega-menu-custom__promo-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 372px;
+    min-width: 372px;
+  }
+
+  .mega-menu-custom__promo-card {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 248px;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .mega-menu-custom__promo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mega-menu-custom__promo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+    pointer-events: none;
+  }
+
+  .mega-menu-custom__promo-heading {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    color: #FDF8F2;
+  }
+{% endstylesheet %}
