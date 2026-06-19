@@ -273,10 +273,28 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "tabbed_products": {
+      "type": "tabbed-products",
+      "settings": {
+        "heading": "Most Popular",
+        "subtext": "Classic solids. Bold prints. Endless options.",
+        "tab_label_1": "Men's",
+        "tab_label_2": "Women's",
+        "shop_all_label": "Shop All",
+        "background_color": "#FDF8F2",
+        "heading_color": "#3F2F27",
+        "tab_active_color": "#D53E27",
+        "card_background": "#F9EFE1",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "max_products": 8
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "tabbed_products"
   ]
 }

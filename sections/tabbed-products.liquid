@@ -1,0 +1,414 @@
+{%- liquid
+  assign collection_1 = section.settings.collection_1
+  assign collection_2 = section.settings.collection_2
+  assign max_products = section.settings.max_products
+  assign has_tabs = false
+  if collection_1 != blank and collection_2 != blank
+    assign has_tabs = true
+  endif
+
+  assign bg_color = section.settings.background_color | default: '#FDF8F2'
+  assign heading_color = section.settings.heading_color | default: '#3F2F27'
+  assign tab_active_color = section.settings.tab_active_color | default: '#D53E27'
+  assign card_background = section.settings.card_background | default: '#F9EFE1'
+-%}
+
+<tabbed-products
+  class="tabbed-products"
+  style="
+    --tabbed-products-bg: {{ bg_color }};
+    --tabbed-products-heading-color: {{ heading_color }};
+    --tabbed-products-tab-active: {{ tab_active_color }};
+    {% render 'spacing-style', settings: section.settings %}
+  "
+>
+  <div class="tabbed-products__inner">
+    <div class="tabbed-products__header">
+      <div class="tabbed-products__header-left">
+        <h2 class="tabbed-products__heading">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subtext != blank -%}
+          <p class="tabbed-products__subtext">{{ section.settings.subtext }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="tabbed-products__header-right">
+        {%- if has_tabs -%}
+          <div class="tabbed-products__tabs">
+            <button
+              type="button"
+              class="tabbed-products__tab tabbed-products__tab--active"
+              data-tab-btn
+              data-tab="0"
+              on:click="/switchTab"
+              aria-pressed="true"
+            >
+              {{ section.settings.tab_label_1 }}
+            </button>
+            <button
+              type="button"
+              class="tabbed-products__tab"
+              data-tab-btn
+              data-tab="1"
+              on:click="/switchTab"
+              aria-pressed="false"
+            >
+              {{ section.settings.tab_label_2 }}
+            </button>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.shop_all_url != blank -%}
+          <a href="{{ section.settings.shop_all_url }}" class="tabbed-products__shop-all">
+            {{ section.settings.shop_all_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if collection_1 != blank -%}
+      <div class="tabbed-products__carousel" data-tab-panel="0">
+        {%- for product in collection_1.products limit: max_products -%}
+          <div class="tabbed-products__card-wrapper">
+            {%- render 'tabbed-products-card', product: product, card_background: card_background -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if collection_2 != blank -%}
+      <div class="tabbed-products__carousel" data-tab-panel="1" hidden>
+        {%- for product in collection_2.products limit: max_products -%}
+          <div class="tabbed-products__card-wrapper">
+            {%- render 'tabbed-products-card', product: product, card_background: card_background -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if collection_1 == blank and collection_2 == blank -%}
+      <div class="tabbed-products__carousel">
+        {%- for i in (1..4) -%}
+          <div class="tabbed-products__card-wrapper">
+            <div class="tabbed-products-card">
+              <div class="tabbed-products-card__image-wrapper" style="background-color: {{ card_background }};">
+                {{ 'product-1' | placeholder_svg_tag: 'tabbed-products-card__image' }}
+              </div>
+              <div class="tabbed-products-card__info">
+                <p class="tabbed-products-card__title">Product title</p>
+                <p class="tabbed-products-card__type">Product type</p>
+                <div class="tabbed-products-card__price">
+                  <span class="tabbed-products-card__price-current">{{ 1999 | money }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</tabbed-products>
+
+<script type="module">
+  import { Component } from '@theme/component';
+
+  class TabbedProducts extends Component {
+    connectedCallback() {
+      super.connectedCallback();
+    }
+
+    switchTab(event) {
+      const clickedBtn = event.currentTarget;
+      const tabIndex = clickedBtn.dataset.tab;
+
+      const allBtns = this.querySelectorAll('[data-tab-btn]');
+      for (const btn of allBtns) {
+        const isActive = btn.dataset.tab === tabIndex;
+        btn.classList.toggle('tabbed-products__tab--active', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      }
+
+      const allPanels = this.querySelectorAll('[data-tab-panel]');
+      for (const panel of allPanels) {
+        panel.hidden = panel.dataset.tabPanel !== tabIndex;
+      }
+    }
+  }
+
+  customElements.define('tabbed-products', TabbedProducts);
+</script>
+
+{% stylesheet %}
+  .tabbed-products {
+    display: block;
+    background-color: var(--tabbed-products-bg, #FDF8F2);
+    padding-block-start: var(--padding-block-start, 64px);
+    padding-block-end: var(--padding-block-end, 64px);
+  }
+
+  .tabbed-products__inner {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .tabbed-products__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-inline: 40px;
+    gap: 32px;
+  }
+
+  .tabbed-products__header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .tabbed-products__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 48px;
+    color: var(--tabbed-products-heading-color, #3F2F27);
+    margin: 0;
+  }
+
+  .tabbed-products__subtext {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--tabbed-products-heading-color, #3F2F27);
+    margin: 0;
+  }
+
+  .tabbed-products__header-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-shrink: 0;
+  }
+
+  .tabbed-products__tabs {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+
+  .tabbed-products__tab {
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background: none;
+    color: #3F2F27;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .tabbed-products__tab--active {
+    color: var(--tabbed-products-tab-active, #D53E27);
+    border-bottom-color: var(--tabbed-products-tab-active, #D53E27);
+  }
+
+  .tabbed-products__shop-all {
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border: 1px solid var(--tabbed-products-tab-active, #D53E27);
+    border-radius: 4px;
+    color: var(--tabbed-products-tab-active, #D53E27);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .tabbed-products__shop-all:hover {
+    background-color: var(--tabbed-products-tab-active, #D53E27);
+    color: #FDF8F2;
+  }
+
+  .tabbed-products__carousel {
+    display: flex;
+    gap: 16px;
+    padding-inline: 40px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .tabbed-products__carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabbed-products__card-wrapper {
+    flex: 0 0 calc((100% - 48px) / 4);
+    min-width: 240px;
+    scroll-snap-align: start;
+  }
+
+  @media screen and (max-width: 749px) {
+    .tabbed-products__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+      padding-inline: 20px;
+    }
+
+    .tabbed-products__header-right {
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .tabbed-products__heading {
+      font-size: 36px;
+      line-height: 36px;
+    }
+
+    .tabbed-products__carousel {
+      padding-inline: 20px;
+    }
+
+    .tabbed-products__card-wrapper {
+      flex: 0 0 70vw;
+      min-width: 250px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Tabbed products",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Most Popular"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Classic solids. Bold prints. Endless options."
+    },
+    {
+      "type": "header",
+      "content": "Collections"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Collection 1"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Collection 2"
+    },
+    {
+      "type": "text",
+      "id": "tab_label_1",
+      "label": "Tab label 1",
+      "default": "Men's"
+    },
+    {
+      "type": "text",
+      "id": "tab_label_2",
+      "label": "Tab label 2",
+      "default": "Women's"
+    },
+    {
+      "type": "url",
+      "id": "shop_all_url",
+      "label": "Shop all link"
+    },
+    {
+      "type": "text",
+      "id": "shop_all_label",
+      "label": "Shop all label",
+      "default": "Shop All"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Maximum products",
+      "min": 1,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_color",
+      "label": "Active tab color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
