@@ -408,97 +408,10 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
-    },
-    "products_section": {
-      "type": "products-section",
-      "settings": {
-        "heading": "Most Popular",
-        "subtext": "Classic solids. Bold prints. Endless options.",
-        "heading_color": "#3F2F27",
-        "background_color": "#FDF8F2",
-        "card_background_color": "#F9EFE1",
-        "active_filter_color": "#D53E27",
-        "filter_1_text": "Men's",
-        "filter_2_text": "Women's",
-        "shop_all_text": "Shop All",
-        "padding-block-start": 64,
-        "padding-block-end": 64
-      },
-      "blocks": {
-        "card_1": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/image-1-products-section-111230360.png",
-            "product_title": "The Declaration",
-            "product_type": "Boxer brief",
-            "compare_at_price": "$29.99",
-            "price": "$19.99",
-            "rating_text": "8K Reviews",
-            "tag_1_text": "20% Off",
-            "tag_1_color": "#E82911",
-            "tag_2_text": "Best Seller",
-            "tag_2_color": "#697793"
-          }
-        },
-        "card_2": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/image-1-products-section-111230387.png",
-            "sticker_asset": "with-fly-boxer-1.svg",
-            "product_title": "The Boat Drinks",
-            "product_type": "Boxer brief",
-            "price": "$19.99",
-            "rating_text": "8K Reviews",
-            "tag_1_text": "Best Seller",
-            "tag_1_color": "#697793"
-          }
-        },
-        "card_3": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/image-1-products-section-111230429.png",
-            "product_title": "The Dry Fly",
-            "product_type": "Boxer brief",
-            "price": "$19.99",
-            "rating_text": "8K Reviews",
-            "tag_1_text": "Best Seller",
-            "tag_1_color": "#697793"
-          }
-        },
-        "card_4": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/image-2-products-section-11261289.png",
-            "sticker_asset": "boys-sticker-1.svg",
-            "product_title": "The Declaration",
-            "product_type": "Boxer brief",
-            "price": "$19.99",
-            "rating_text": "8K Reviews",
-            "tag_1_text": "Just Dropped",
-            "tag_1_color": "#DAA64F",
-            "tag_2_text": "Best Seller",
-            "tag_2_color": "#697793"
-          }
-        },
-        "card_5": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/image-1-products-section-111230481.png",
-            "product_title": "The Big Bang",
-            "product_type": "Boxer brief",
-            "price": "$19.99",
-            "rating_text": "8K Reviews",
-            "tag_1_text": "Best Seller",
-            "tag_1_color": "#697793"
-          }
-        }
-      },
-      "block_order": ["card_1", "card_2", "card_3", "card_4", "card_5"]
     }
   },
   "order": [
     "hero_slideshow",
-    "product_list_fa6P9H",
-    "products_section"
+    "product_list_fa6P9H"
   ]
 }
