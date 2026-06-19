@@ -161,7 +161,7 @@
               "settings": {
                 "thickness": 1,
                 "corner_radius": "square",
-                "divider_color": "#DFDFDF",
+                "divider_color": "#7C665B",
                 "width_percent": 100,
                 "padding-block-start": 0,
                 "padding-block-end": 0
