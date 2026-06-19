@@ -14,9 +14,9 @@
       "settings": {
         "display_mode": "full_frame",
         "section_width": "full-width",
-        "slide_height": "medium",
+        "slide_height": "auto",
         "content_position": "on-media",
-        "icons_style": "arrow",
+        "icons_style": "chevron",
         "icons_shape": "circle",
         "slideshow_controls_style": "dots",
         "autoplay": true,
@@ -44,7 +44,7 @@
             "heading_1": {
               "type": "text",
               "settings": {
-                "text": "<p>Fart Filtering Underwear</p>",
+                "text": "<h1>Fart Filtering Underwear</h1>",
                 "type_preset": "h1",
                 "text_color": "#FDF8F2",
                 "width": "fit-content"
@@ -117,7 +117,7 @@
             "heading_2": {
               "type": "text",
               "settings": {
-                "text": "<p>Luxury Starts Underneath</p>",
+                "text": "<h1>Luxury Starts Underneath</h1>",
                 "type_preset": "h1",
                 "text_color": "#FDF8F2",
                 "width": "fit-content"
@@ -169,7 +169,7 @@
             "heading_3": {
               "type": "text",
               "settings": {
-                "text": "<p>Serious Comfort. Zero Boring.</p>",
+                "text": "<h1>Serious Comfort. Zero Boring.</h1>",
                 "type_preset": "h1",
                 "text_color": "#FFFFFF",
                 "width": "fit-content"
