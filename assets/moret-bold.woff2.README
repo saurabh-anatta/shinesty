@@ -1,0 +1,14 @@
+MANUAL UPLOAD REQUIRED
+=====================
+
+The file "moret-bold.woff2" must be manually uploaded to this theme's assets/ directory.
+
+Moret is a commercial font NOT available in Shopify's font_picker library.
+To complete the heading font setup:
+
+1. Obtain the Moret Bold (weight 700) .woff2 file from your font license provider.
+2. Upload it to this theme via Shopify Admin > Online Store > Themes > Edit code > Assets > Add a new asset.
+3. Name the file exactly: moret-bold.woff2
+
+Without this file, the @font-face declaration in snippets/theme-styles-variables.liquid
+will fail silently, and headings will render in the Playfair Display fallback font instead.

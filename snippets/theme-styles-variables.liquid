@@ -123,6 +123,13 @@
     endunless
   %}
 
+  @font-face {
+    font-family: 'Moret';
+    src: url({{ 'moret-bold.woff2' | asset_url }}) format('woff2');
+    font-weight: 700;
+    font-display: swap;
+  }
+
   :root {
     /* Page Layout */
     --sidebar-width: 25rem;
@@ -162,7 +169,7 @@
     --font-subheading--family: {{ settings.type_subheading_font.family }}, {{ settings.type_subheading_font.fallback_families }};
     --font-subheading--style: {{ settings.type_subheading_font.style }};
     --font-subheading--weight: {{ settings.type_subheading_font.weight }};
-    --font-heading--family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --font-heading--family: 'Moret', {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
     --font-heading--style: {{ settings.type_heading_font.style }};
     --font-heading--weight: {{ settings.type_heading_font.weight }};
     --font-accent--family: {{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
