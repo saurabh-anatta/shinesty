@@ -114,13 +114,13 @@
                 "input_style": "custom",
                 "border_width": 1,
                 "border_radius": 100,
-                "input_background_color": "{{ settings.color_palette.color1 }}",
+                "input_background_color": "#D53E27",
                 "input_border_color": "",
                 "input_type_preset": "paragraph",
                 "style_class": "button-secondary",
-                "custom_button_background": "{{ settings.color_palette.foreground }}",
-                "custom_button_text": "{{ settings.color_palette.background }}",
-                "custom_button_border": "{{ settings.color_palette.background }}",
+                "custom_button_background": "#3F2F27",
+                "custom_button_text": "#FDF8F2",
+                "custom_button_border": "#FDF8F2",
                 "display_type": "text",
                 "label": "Sign up",
                 "integrated_button": false,
@@ -183,7 +183,7 @@
       "settings": {
         "section_width": "page-width",
         "gap": 40,
-        "background_color": "{{ settings.color_palette.color1 }}",
+        "background_color": "#D53E27",
         "padding-block-start": 36,
         "padding-block-end": 36
       }
@@ -225,7 +225,7 @@
       "settings": {
         "section_width": "page-width",
         "gap": 24,
-        "background_color": "{{ settings.color_palette.color1 }}",
+        "background_color": "#D53E27",
         "divider_thickness": 1,
         "padding-block-start": 12,
         "padding-block-end": 16
