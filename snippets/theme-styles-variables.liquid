@@ -176,6 +176,12 @@
     --font-accent--style: {{ settings.type_accent_font.style }};
     --font-accent--weight: {{ settings.type_accent_font.weight }};
 
+    /* Lexend Bold overrides: font_picker uses lexend_n4 (base weight 400)
+       but font_modify generates the Bold 700 @font-face automatically.
+       Override weight variables to match Figma (subheading/accent = Lexend 700). */
+    --font-subheading--weight: 700;
+    --font-accent--weight: 700;
+
     /* Margin sizes */
     --font-heading--spacing: 0.25em;
     --font-h1--spacing: var(--font-heading--spacing);
