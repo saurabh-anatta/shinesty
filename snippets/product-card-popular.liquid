@@ -1,0 +1,130 @@
+{%- doc -%}
+  Custom product card for the Most Popular section.
+  Renders product image with optional SVG sticker, star rating,
+  title, type, price with compare-at, and colored tag pills.
+
+  @param {object} product - The product object to render
+  @param {string} [card_bg_color] - Background color for the image container
+  @param {string} [rating_text] - Review count text fallback
+  @param {boolean} [show_rating] - Whether to show star rating row
+
+  @example
+  {% render 'product-card-popular', product: product, card_bg_color: '#F9EFE1', rating_text: '8K Reviews', show_rating: true %}
+{%- enddoc -%}
+
+{%- liquid
+  assign card_bg_color = card_bg_color | default: '#F9EFE1'
+  assign rating_text = rating_text | default: '8K Reviews'
+  assign show_rating = show_rating | default: true, allow_false: true
+-%}
+
+{%- if product != blank -%}
+  {%- liquid
+    assign has_with_fly = false
+    assign has_boys_sticker = false
+    assign has_best_seller = false
+    assign has_just_dropped = false
+    for tag in product.tags
+      assign tag_lower = tag | downcase
+      if tag_lower == 'with-fly'
+        assign has_with_fly = true
+      endif
+      if tag_lower == 'boys-sticker'
+        assign has_boys_sticker = true
+      endif
+      if tag_lower == 'best-seller'
+        assign has_best_seller = true
+      endif
+      if tag_lower == 'just-dropped'
+        assign has_just_dropped = true
+      endif
+    endfor
+
+    assign has_discount = false
+    assign discount_pct = 0
+    if product.compare_at_price > product.price
+      assign has_discount = true
+      assign savings = product.compare_at_price | minus: product.price
+      assign discount_pct = savings | times: 100 | divided_by: product.compare_at_price
+    endif
+
+    assign img_alt = product.featured_image.alt | default: product.title
+  -%}
+
+  <a href="{{ product.url }}" class="popular-card">
+    <div class="popular-card__image-container" style="background-color: {{ card_bg_color }};">
+      {%- if product.featured_image != blank -%}
+        {{
+          product.featured_image
+          | image_url: width: 490
+          | image_tag:
+            class: 'popular-card__image',
+            loading: 'lazy',
+            widths: '245,490',
+            sizes: '245px',
+            alt: img_alt
+        }}
+      {%- endif -%}
+
+      {%- if has_with_fly -%}
+        <span class="popular-card__sticker">
+          {{ 'with-fly-boxer-1.svg' | inline_asset_content }}
+        </span>
+      {%- elsif has_boys_sticker -%}
+        <span class="popular-card__sticker">
+          {{ 'boys-sticker-1.svg' | inline_asset_content }}
+        </span>
+      {%- endif -%}
+    </div>
+
+    <div class="popular-card__info">
+      {%- if show_rating -%}
+        {%- liquid
+          assign review_count_meta = product.metafields.reviews.rating_count.value
+          if review_count_meta != blank
+            assign review_display = review_count_meta | append: ' Reviews'
+          else
+            assign review_display = rating_text
+          endif
+        -%}
+        <div class="popular-card__rating" role="img" aria-label="4.5 out of 5 stars, {{ review_display }}">
+          <span class="popular-card__stars" aria-hidden="true">
+            {{ 'star-solid.svg' | inline_asset_content }}
+            {{ 'star-solid.svg' | inline_asset_content }}
+            {{ 'star-solid.svg' | inline_asset_content }}
+            {{ 'star-solid.svg' | inline_asset_content }}
+            {{ 'star-half-alt-solid.svg' | inline_asset_content }}
+          </span>
+          <span class="popular-card__reviews">{{ review_display }}</span>
+        </div>
+      {%- endif -%}
+
+      <h3 class="popular-card__title">{{ product.title }}</h3>
+
+      {%- if product.type != blank -%}
+        <p class="popular-card__type">{{ product.type }}</p>
+      {%- endif -%}
+
+      <div class="popular-card__price">
+        {%- if has_discount -%}
+          <span class="popular-card__price-compare">{{ product.compare_at_price | money }}</span>
+        {%- endif -%}
+        <span class="popular-card__price-current">{{ product.price | money }}</span>
+      </div>
+
+      {%- if has_discount or has_just_dropped or has_best_seller -%}
+        <div class="popular-card__tags">
+          {%- if has_discount -%}
+            <span class="popular-card__tag popular-card__tag--discount">{{ discount_pct }}% Off</span>
+          {%- endif -%}
+          {%- if has_just_dropped -%}
+            <span class="popular-card__tag popular-card__tag--just-dropped">Just Dropped</span>
+          {%- endif -%}
+          {%- if has_best_seller -%}
+            <span class="popular-card__tag popular-card__tag--best-seller">Best Seller</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </a>
+{%- endif -%}

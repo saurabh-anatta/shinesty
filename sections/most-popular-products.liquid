@@ -1,0 +1,589 @@
+{%- liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+-%}
+
+<most-popular-products>
+  <div
+    class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  ></div>
+  <div
+    class="
+      section
+      section--{{ section.settings.section_width }}
+      {% if section.settings.background_color != blank %}color-custom-{{ section.id }}{% endif %}
+      spacing-style
+    "
+    style="{% render 'spacing-style', settings: section.settings %}"
+  >
+    <div class="most-popular__content">
+      <div class="most-popular__header">
+        <div class="most-popular__header-left" style="--heading-color: {{ section.settings.heading_color }};">
+          <h2 class="most-popular__heading">{{ section.settings.heading }}</h2>
+          {%- if section.settings.subtitle != blank -%}
+            <p class="most-popular__subtitle">{{ section.settings.subtitle }}</p>
+          {%- endif -%}
+        </div>
+        <div class="most-popular__header-right" style="--tab-active-color: {{ section.settings.tab_active_color }};">
+          <div class="most-popular__tabs">
+            <button
+              type="button"
+              class="most-popular__tab most-popular__tab--active"
+              ref="tabs[]"
+              on:click="/switchTab"
+              data-tab="0"
+            >
+              {{ section.settings.tab_1_label }}
+            </button>
+            <button
+              type="button"
+              class="most-popular__tab"
+              ref="tabs[]"
+              on:click="/switchTab"
+              data-tab="1"
+            >
+              {{ section.settings.tab_2_label }}
+            </button>
+          </div>
+          {%- if section.settings.shop_all_url != blank -%}
+            <a href="{{ section.settings.shop_all_url }}" class="most-popular__shop-all">
+              {{ section.settings.shop_all_label }}
+            </a>
+          {%- else -%}
+            <span class="most-popular__shop-all">
+              {{ section.settings.shop_all_label }}
+            </span>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="most-popular__products-panel" ref="panels[]" style="display: flex;">
+        {%- if section.settings.collection_1 != blank -%}
+          {%- for product in section.settings.collection_1.products limit: section.settings.max_products -%}
+            <div class="most-popular__card-wrapper">
+              {%- render 'product-card-popular',
+                product: product,
+                card_bg_color: section.settings.card_background_color,
+                rating_text: section.settings.rating_text,
+                show_rating: section.settings.show_rating
+              -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+
+      <div class="most-popular__products-panel" ref="panels[]" style="display: none;">
+        {%- if section.settings.collection_2 != blank -%}
+          {%- for product in section.settings.collection_2.products limit: section.settings.max_products -%}
+            <div class="most-popular__card-wrapper">
+              {%- render 'product-card-popular',
+                product: product,
+                card_bg_color: section.settings.card_background_color,
+                rating_text: section.settings.rating_text,
+                show_rating: section.settings.show_rating
+              -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</most-popular-products>
+
+{% javascript %}
+  import { Component } from '@theme/component';
+
+  class MostPopularProducts extends Component {
+    connectedCallback() {
+      super.connectedCallback();
+    }
+
+    switchTab(event) {
+      const tabIndex = parseInt(event.currentTarget.dataset.tab, 10);
+      const tabs = this.refs.tabs;
+      const panels = this.refs.panels;
+
+      if (!tabs || !panels) return;
+
+      for (const tab of tabs) {
+        const isActive = parseInt(tab.dataset.tab, 10) === tabIndex;
+        tab.classList.toggle('most-popular__tab--active', isActive);
+      }
+
+      for (let i = 0; i < panels.length; i++) {
+        panels[i].style.display = i === tabIndex ? 'flex' : 'none';
+      }
+    }
+  }
+
+  customElements.define('most-popular-products', MostPopularProducts);
+{% endjavascript %}
+
+{% stylesheet %}
+  most-popular-products {
+    display: block;
+    position: relative;
+  }
+
+  /* Content wrapper */
+  .most-popular__content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* ----------------------------------------------------------------
+     Header
+  ---------------------------------------------------------------- */
+  .most-popular__header {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    padding-inline: 20px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .most-popular__header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-inline: 40px;
+    }
+  }
+
+  .most-popular__header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .most-popular__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 36px;
+    letter-spacing: 0;
+    color: var(--heading-color, #3F2F27);
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .most-popular__heading {
+      font-size: 48px;
+      line-height: 48px;
+    }
+  }
+
+  .most-popular__subtitle {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--heading-color, #3F2F27);
+    margin: 0;
+  }
+
+  .most-popular__header-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .most-popular__tabs {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+
+  .most-popular__tab {
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #3F2F27;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 8px 0;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--animation-values), border-color var(--animation-values);
+  }
+
+  .most-popular__tab:hover {
+    color: var(--tab-active-color, #D53E27);
+  }
+
+  .most-popular__tab--active {
+    color: var(--tab-active-color, #D53E27);
+    border-bottom-color: var(--tab-active-color, #D53E27);
+  }
+
+  .most-popular__shop-all {
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--tab-active-color, #D53E27);
+    border: 1px solid var(--tab-active-color, #D53E27);
+    border-radius: 4px;
+    padding: 8px 12px;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity var(--animation-values);
+  }
+
+  .most-popular__shop-all:hover {
+    opacity: 0.8;
+  }
+
+  /* ----------------------------------------------------------------
+     Products Panel
+  ---------------------------------------------------------------- */
+  .most-popular__products-panel {
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: 20px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .most-popular__products-panel::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .most-popular__products-panel {
+      padding-inline: 40px;
+    }
+  }
+
+  .most-popular__card-wrapper {
+    flex: 0 0 260px;
+    scroll-snap-align: start;
+  }
+
+  @media screen and (min-width: 750px) {
+    .most-popular__card-wrapper {
+      flex: 0 0 310px;
+    }
+  }
+
+  /* ----------------------------------------------------------------
+     Product Card
+  ---------------------------------------------------------------- */
+  .popular-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .popular-card__image-container {
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popular-card__image {
+    width: 79%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .popular-card__sticker {
+    position: absolute;
+    top: 8px;
+    inset-inline-end: 8px;
+    width: 85px;
+    height: 38px;
+    pointer-events: none;
+  }
+
+  .popular-card__sticker svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Info section */
+  .popular-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Stars */
+  .popular-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .popular-card__stars {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .popular-card__stars svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .popular-card__reviews {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #7C665B;
+  }
+
+  /* Title */
+  .popular-card__title {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: 0;
+    color: #3F2F27;
+    margin: 0;
+  }
+
+  /* Type */
+  .popular-card__type {
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #3F2F27;
+    margin: 0;
+  }
+
+  /* Price */
+  .popular-card__price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .popular-card__price-compare {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    text-decoration: line-through;
+    color: #3F2F27;
+  }
+
+  .popular-card__price-current {
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.25px;
+    color: #3F2F27;
+  }
+
+  /* Tags */
+  .popular-card__tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .popular-card__tag {
+    border-radius: 0 8px 0 8px;
+    padding: 4px 6px;
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 12px;
+    color: #FDF8F2;
+    white-space: nowrap;
+  }
+
+  .popular-card__tag--discount {
+    background-color: #E82911;
+  }
+
+  .popular-card__tag--best-seller {
+    background-color: #697793;
+  }
+
+  .popular-card__tag--just-dropped {
+    background-color: #DAA64F;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Most Popular Products",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Most Popular"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Classic solids. Bold prints. Endless options."
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Collection 1"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Collection 2"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_label",
+      "label": "Tab 1 label",
+      "default": "Men's"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_label",
+      "label": "Tab 2 label",
+      "default": "Women's"
+    },
+    {
+      "type": "text",
+      "id": "shop_all_label",
+      "label": "Shop all label",
+      "default": "Shop All"
+    },
+    {
+      "type": "url",
+      "id": "shop_all_url",
+      "label": "Shop all link"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Max products",
+      "min": 1,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "8K Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FDF8F2"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background",
+      "default": "#F9EFE1"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_color",
+      "label": "Active tab color",
+      "default": "#D53E27"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#3F2F27"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Most Popular Products"
+    }
+  ]
+}
+{% endschema %}
