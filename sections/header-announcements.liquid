@@ -35,6 +35,21 @@
     <div class="announcement-bar__slides">
       {% content_for 'blocks' %}
     </div>
+
+    <button
+      class="announcement-bar__close"
+      type="button"
+      aria-label="Close announcement"
+      onclick="this.closest('.shopify-section').style.display='none'"
+    >
+      <img
+        src="{{ 'close.svg' | asset_url }}"
+        alt=""
+        width="16"
+        height="14"
+        loading="lazy"
+      >
+    </button>
   </announcement-bar-component>
 </aside>
 
@@ -120,6 +135,32 @@
   .announcement-bar__link {
     position: absolute;
     inset: 0;
+  }
+
+  .announcement-bar__close {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    opacity: 0.8;
+  }
+
+  .announcement-bar__close:hover {
+    opacity: 1;
+  }
+
+  .announcement-bar__close img {
+    display: block;
+    width: 16px;
+    height: 14px;
   }
 {% endstylesheet %}
 

@@ -1165,6 +1165,20 @@
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
   }
+
+  .header {
+    --header-padding: 20px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .header__columns {
+      grid-gap: 21px;
+    }
+  }
+
+  .header__column .svg-wrapper {
+    color: inherit;
+  }
 {% endstylesheet %}
 
 {% unless request.design_mode %}

@@ -125,22 +125,30 @@
               >
                 {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
                 <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                  <div
-                    class="mega-menu__grid"
-                    data-menu-grid-id="{{ list_id }}"
-                  >
-                    {% render 'mega-menu-list',
+                  {% if menu_content_type == 'custom' %}
+                    {% render 'mega-menu-custom',
                       parent_link: link,
-                      id: list_id,
-                      section: section,
-                      grid_columns_count: 6,
-                      grid_columns_count_tablet: 4,
-                      grid_columns_count_collection_images: 8,
-                      menu_content_type: menu_content_type,
-                      content_aspect_ratio: ratio,
-                      image_border_radius: image_border_radius
+                      block: block,
+                      section: section
                     %}
-                  </div>
+                  {% else %}
+                    <div
+                      class="mega-menu__grid"
+                      data-menu-grid-id="{{ list_id }}"
+                    >
+                      {% render 'mega-menu-list',
+                        parent_link: link,
+                        id: list_id,
+                        section: section,
+                        grid_columns_count: 6,
+                        grid_columns_count_tablet: 4,
+                        grid_columns_count_collection_images: 8,
+                        menu_content_type: menu_content_type,
+                        content_aspect_ratio: ratio,
+                        image_border_radius: image_border_radius
+                      %}
+                    </div>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -326,6 +334,18 @@
 
   .menu-list__link-title {
     padding-inline: calc(var(--gap-xl) / 2);
+    position: relative;
+  }
+
+  .menu-list__link--active .menu-list__link-title::after,
+  .menu-list__list-item:hover .menu-list__link-title::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: currentColor;
   }
   [slot='overflow'] .menu-list__link-title {
     padding-inline: 0;
@@ -849,6 +869,10 @@
         {
           "value": "featured_collections",
           "label": "t:options.featured_collections"
+        },
+        {
+          "value": "custom",
+          "label": "Custom layout"
         }
       ],
       "default": "collection_images"
@@ -905,6 +929,48 @@
       "unit": "px",
       "default": 0,
       "visible_if": "{{ block.settings.menu_style != 'text' }}"
+    },
+    {
+      "type": "header",
+      "content": "Custom layout"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image_1",
+      "label": "Promo image 1",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "text",
+      "id": "promo_title_1",
+      "label": "Promo title 1",
+      "default": "Bundle & Save up to 33%",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "url",
+      "id": "promo_link_1",
+      "label": "Promo link 1",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image_2",
+      "label": "Promo image 2",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "text",
+      "id": "promo_title_2",
+      "label": "Promo title 2",
+      "default": "Boob Hammocks",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "url",
+      "id": "promo_link_2",
+      "label": "Promo link 2",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
     },
     {
       "type": "header",

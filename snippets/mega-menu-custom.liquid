@@ -1,0 +1,338 @@
+{%- doc -%}
+  Renders a custom mega menu layout with icon-based category buttons,
+  text link columns, and promotional image cards.
+
+  @param {object} parent_link - The parent linklist link to render children from.
+  @param {object} block - The header menu block containing promo settings.
+  @param {object} section - The parent section object.
+
+  @example
+  {% render 'mega-menu-custom', parent_link: link, block: block, section: section %}
+{%- enddoc -%}
+
+<div class="mega-menu-custom">
+  <div class="mega-menu-custom__content">
+    {% for child_link in parent_link.links %}
+      {% if forloop.first %}
+        {%- comment -%} First child group renders as icon category buttons {%- endcomment -%}
+        <div class="mega-menu-custom__categories">
+          <h3 class="mega-menu-custom__heading">{{ child_link.title }}</h3>
+          <div class="mega-menu-custom__category-list">
+            {% for cat_link in child_link.links %}
+              {%- liquid
+                assign icon_file = ''
+                assign cat_handle = cat_link.title | handleize
+                case cat_handle
+                  when 'thongs'
+                    assign icon_file = 'outline-thong-1.svg'
+                  when 'cheekies'
+                    assign icon_file = 'outline-cheeky-1.svg'
+                  when 'boyshorts'
+                    assign icon_file = 'outline-boyshort-1.svg'
+                  when 'bikinis'
+                    assign icon_file = 'outline-bikini-1.svg'
+                  when 'womens-boxers', 'women-s-boxers'
+                    assign icon_file = 'outline-w-boxer-1.svg'
+                  when 'bralette', 'bralettes'
+                    assign icon_file = 'bralette-busty-outline-1.svg'
+                  when 'packs'
+                    assign icon_file = 'outline-thong-1-2.svg'
+                endcase
+              -%}
+              <a href="{{ cat_link.url }}" class="mega-menu-custom__category-btn{% if cat_link.active %} mega-menu-custom__category-btn--active{% endif %}">
+                {% if icon_file != '' %}
+                  <span class="mega-menu-custom__category-icon">
+                    <img
+                      src="{{ icon_file | asset_url }}"
+                      alt=""
+                      width="32"
+                      height="32"
+                      loading="lazy"
+                    >
+                  </span>
+                {% endif %}
+                <span class="mega-menu-custom__category-text">{{ cat_link.title }}</span>
+              </a>
+            {% endfor %}
+          </div>
+          <a href="{{ child_link.url }}" class="mega-menu-custom__shop-all">
+            Shop All {{ child_link.title }}
+            <img
+              src="{{ 'chevron-up.svg' | asset_url }}"
+              alt=""
+              width="16"
+              height="16"
+              loading="lazy"
+              class="mega-menu-custom__chevron"
+            >
+          </a>
+        </div>
+      {% else %}
+        {%- comment -%} Remaining child groups render as text columns {%- endcomment -%}
+        <div class="mega-menu-custom__column">
+          <h3 class="mega-menu-custom__heading">{{ child_link.title }}</h3>
+          <ul class="mega-menu-custom__link-list list-unstyled">
+            {% for sub_link in child_link.links %}
+              <li>
+                <a href="{{ sub_link.url }}" class="mega-menu-custom__link">
+                  {{ sub_link.title }}
+                </a>
+              </li>
+            {% endfor %}
+            <li>
+              <a href="{{ child_link.url }}" class="mega-menu-custom__link mega-menu-custom__shop-all">
+                Shop All {{ child_link.title }}
+                <img
+                  src="{{ 'chevron-up.svg' | asset_url }}"
+                  alt=""
+                  width="16"
+                  height="16"
+                  loading="lazy"
+                  class="mega-menu-custom__chevron"
+                >
+              </a>
+            </li>
+          </ul>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="mega-menu-custom__promo">
+    {% if block.settings.promo_image_1 != blank %}
+      <a
+        href="{{ block.settings.promo_link_1 | default: '#' }}"
+        class="mega-menu-custom__promo-card mega-menu-custom__promo-card--dark"
+      >
+        <img
+          src="{{ block.settings.promo_image_1 | image_url: width: 744 }}"
+          alt="{{ block.settings.promo_title_1 | escape }}"
+          width="372"
+          height="248"
+          loading="lazy"
+          class="mega-menu-custom__promo-img"
+        >
+        <span class="mega-menu-custom__promo-overlay"></span>
+        <span class="mega-menu-custom__promo-title mega-menu-custom__promo-title--dark">
+          {{ block.settings.promo_title_1 }}
+        </span>
+      </a>
+    {% endif %}
+
+    {% if block.settings.promo_image_2 != blank %}
+      <a
+        href="{{ block.settings.promo_link_2 | default: '#' }}"
+        class="mega-menu-custom__promo-card"
+      >
+        <img
+          src="{{ block.settings.promo_image_2 | image_url: width: 744 }}"
+          alt="{{ block.settings.promo_title_2 | escape }}"
+          width="372"
+          height="248"
+          loading="lazy"
+          class="mega-menu-custom__promo-img"
+        >
+        <span class="mega-menu-custom__promo-overlay"></span>
+        <span class="mega-menu-custom__promo-title">
+          {{ block.settings.promo_title_2 }}
+        </span>
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .mega-menu-custom {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+    background: #FDF8F2;
+    border: 1px solid #3F2F27;
+    border-radius: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mega-menu-custom__content {
+    flex: 1;
+    display: flex;
+    gap: 40px;
+    min-width: 0;
+  }
+
+  .mega-menu-custom__categories {
+    width: 220px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mega-menu-custom__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: #3F2F27;
+    margin: 0;
+  }
+
+  .mega-menu-custom__category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mega-menu-custom__category-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 56px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #F9EFE1;
+    border: 1px solid #F9EFE1;
+    text-decoration: none;
+    color: #3F2F27;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .mega-menu-custom__category-btn:hover,
+  .mega-menu-custom__category-btn--active {
+    border-color: #D53E27;
+    color: #D53E27;
+  }
+
+  .mega-menu-custom__category-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .mega-menu-custom__category-icon img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .mega-menu-custom__category-text {
+    white-space: nowrap;
+  }
+
+  .mega-menu-custom__column {
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mega-menu-custom__link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mega-menu-custom__link {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    text-decoration: none;
+    color: #3F2F27;
+    transition: color 0.2s ease;
+  }
+
+  .mega-menu-custom__link:hover {
+    color: #D53E27;
+  }
+
+  .mega-menu-custom__shop-all {
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: #3F2F27;
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    line-height: 20px;
+    transition: color 0.2s ease;
+  }
+
+  .mega-menu-custom__shop-all:hover {
+    color: #D53E27;
+  }
+
+  .mega-menu-custom__chevron {
+    width: 16px;
+    height: 16px;
+    transform: rotate(90deg);
+    flex-shrink: 0;
+  }
+
+  .mega-menu-custom__promo {
+    width: 372px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .mega-menu-custom__promo-card {
+    height: 248px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    text-decoration: none;
+  }
+
+  .mega-menu-custom__promo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mega-menu-custom__promo-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .mega-menu-custom__promo-card--dark .mega-menu-custom__promo-overlay {
+    background: linear-gradient(184deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
+  }
+
+  .mega-menu-custom__promo-card:not(.mega-menu-custom__promo-card--dark) .mega-menu-custom__promo-overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
+  }
+
+  .mega-menu-custom__promo-title {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 2;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    color: #FDF8F2;
+  }
+
+  .mega-menu-custom__promo-title--dark {
+    color: #3F2F27;
+  }
+{% endstylesheet %}
