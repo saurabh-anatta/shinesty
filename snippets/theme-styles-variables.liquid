@@ -123,6 +123,15 @@
     endunless
   %}
 
+  /* Moret Bold - custom heading font */
+  @font-face {
+    font-family: 'Moret';
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    src: url({{ 'moret-bold.woff2' | asset_url }}) format('woff2');
+  }
+
   :root {
     /* Page Layout */
     --sidebar-width: 25rem;
@@ -171,6 +180,10 @@
 
     /* Custom font overrides */
     --font-body--family: 'Lexend', sans-serif;
+    --font-heading--family: 'Moret', serif;
+    --font-heading--weight: 700;
+    --font-subheading--family: 'Moret', serif;
+    --font-subheading--weight: 700;
 
     /* Margin sizes */
     --font-heading--spacing: 0.25em;
