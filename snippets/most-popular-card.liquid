@@ -1,0 +1,252 @@
+{%- doc -%}
+  Product card for the Most Popular Products section.
+
+  Renders a product card with image (optional SVG sticker overlay),
+  Yotpo star rating widget, product title, product type, price
+  (with compare-at / sale support), and tag-driven badges.
+
+  @param {product} product - The product object to render.
+  @param {string} [card_bg_color] - Background color for the image area. Default: '#F9EFE1'.
+  @param {string} [yotpo_instance_id] - Yotpo Star Rating widget instance ID.
+
+  @example
+  {% render 'most-popular-card', product: product, card_bg_color: '#F9EFE1', yotpo_instance_id: section.settings.yotpo_instance_id %}
+{%- enddoc -%}
+
+{%- liquid
+  assign card_bg_color = card_bg_color | default: '#F9EFE1'
+  assign yotpo_instance_id = yotpo_instance_id | default: ''
+
+  assign has_discount = false
+  if product.compare_at_price and product.compare_at_price > product.price
+    assign has_discount = true
+    assign discount_amount = product.compare_at_price | minus: product.price
+    assign discount_percent = discount_amount | times: 100 | divided_by: product.compare_at_price
+  endif
+
+  assign has_bestseller = false
+  assign has_new = false
+  assign has_sticker_fly = false
+  assign has_sticker_boys = false
+
+  for tag in product.tags
+    assign tag_lower = tag | downcase
+    if tag_lower == 'best-seller'
+      assign has_bestseller = true
+    endif
+    if tag_lower == 'just-dropped'
+      assign has_new = true
+    endif
+    if tag_lower == 'with-fly'
+      assign has_sticker_fly = true
+    endif
+    if tag_lower == 'boys'
+      assign has_sticker_boys = true
+    endif
+  endfor
+
+  assign has_badges = false
+  if has_discount or has_bestseller or has_new
+    assign has_badges = true
+  endif
+-%}
+
+<div class="mp-card">
+  <a href="{{ product.url }}" class="mp-card__link">
+    <div class="mp-card__image-wrapper" style="background-color: {{ card_bg_color }};">
+      {%- if product.featured_image -%}
+        <img
+          src="{{ product.featured_image | image_url: width: 500 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          width="{{ product.featured_image.width }}"
+          height="{{ product.featured_image.height }}"
+          loading="lazy"
+          class="mp-card__image"
+        >
+      {%- endif -%}
+
+      {%- if has_sticker_fly -%}
+        <img
+          src="{{ 'with-fly-boxer-1.svg' | asset_url }}"
+          alt="With Fly"
+          width="85"
+          height="38"
+          loading="lazy"
+          class="mp-card__sticker"
+          style="width: 85px; height: 38px;"
+        >
+      {%- endif -%}
+
+      {%- if has_sticker_boys -%}
+        <img
+          src="{{ 'boys-sticker-1.svg' | asset_url }}"
+          alt="Boy's Boxer"
+          width="85"
+          height="38"
+          loading="lazy"
+          class="mp-card__sticker"
+          style="width: 85px; height: 38px;"
+        >
+      {%- endif -%}
+    </div>
+
+    <div class="mp-card__info">
+      <div class="mp-card__rating">
+        <div
+          class="yotpo-widget-instance"
+          data-yotpo-instance-id="{{ yotpo_instance_id }}"
+          data-yotpo-product-id="{{ product.id }}"
+          data-yotpo-cart-product-id="{{ product.id }}"
+          data-yotpo-section-id="{{ template.name }}"
+        ></div>
+      </div>
+
+      <h3 class="mp-card__title">{{ product.title }}</h3>
+
+      <p class="mp-card__type">{{ product.type }}</p>
+
+      <div class="mp-card__price">
+        {%- if has_discount -%}
+          <span class="mp-card__price-compare">{{ product.compare_at_price | money }}</span>
+        {%- endif -%}
+        <span class="mp-card__price-current">{{ product.price | money }}</span>
+      </div>
+
+      {%- if has_badges -%}
+        <div class="mp-card__badges">
+          {%- if has_discount -%}
+            <span class="mp-card__badge mp-card__badge--discount">{{ discount_percent }}% Off</span>
+          {%- endif -%}
+          {%- if has_bestseller -%}
+            <span class="mp-card__badge mp-card__badge--bestseller">Best Seller</span>
+          {%- endif -%}
+          {%- if has_new -%}
+            <span class="mp-card__badge mp-card__badge--new">Just Dropped</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </a>
+</div>
+
+{% stylesheet %}
+  .mp-card {
+    flex: 0 0 310px;
+    min-width: 0;
+  }
+
+  .mp-card__link {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .mp-card__image-wrapper {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mp-card__image {
+    width: 79%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .mp-card__sticker {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .mp-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mp-card__rating {
+    min-height: 16px;
+  }
+
+  .mp-card__title {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    margin: 0;
+  }
+
+  .mp-card__type {
+    font-family: var(--font-body--family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .mp-card__price {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .mp-card__price-compare {
+    font-weight: 400;
+    text-decoration: line-through;
+  }
+
+  .mp-card__price-current {
+    font-weight: 700;
+    letter-spacing: -0.25px;
+  }
+
+  .mp-card__badges {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  .mp-card__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 8px 0 8px;
+    padding: 4px 6px;
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 12px;
+    color: #FDF8F2;
+  }
+
+  .mp-card__badge--discount {
+    background-color: var(--mp-badge-discount, #E82911);
+  }
+
+  .mp-card__badge--bestseller {
+    background-color: var(--mp-badge-bestseller, #697793);
+  }
+
+  .mp-card__badge--new {
+    background-color: var(--mp-badge-new, #DAA64F);
+  }
+
+  @media screen and (max-width: 749px) {
+    .mp-card {
+      flex: 0 0 260px;
+    }
+  }
+{% endstylesheet %}

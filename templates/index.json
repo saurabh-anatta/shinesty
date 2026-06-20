@@ -231,6 +231,27 @@
       },
       "block_order": ["slide_1", "slide_2", "slide_3"]
     },
+    "most_popular": {
+      "type": "most-popular-products",
+      "settings": {
+        "heading": "Most Popular",
+        "subheading": "Classic solids. Bold prints. Endless options.",
+        "tab_label_1": "Men's",
+        "tab_label_2": "Women's",
+        "shop_all_label": "Shop All",
+        "max_products": 8,
+        "background_color": "#FDF8F2",
+        "heading_color": "#3F2F27",
+        "text_color": "#3F2F27",
+        "card_background_color": "#F9EFE1",
+        "tab_active_color": "#D53E27",
+        "badge_discount_color": "#E82911",
+        "badge_bestseller_color": "#697793",
+        "badge_new_color": "#DAA64F",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -420,6 +441,7 @@
   },
   "order": [
     "hero_slideshow",
+    "most_popular",
     "product_list_fa6P9H"
   ]
 }
