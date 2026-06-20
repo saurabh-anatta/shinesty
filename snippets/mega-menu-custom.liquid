@@ -112,6 +112,20 @@
           loading="lazy"
           class="mega-menu-custom__promo-img"
         >
+        {% if block.settings.promo_thumbnail_image != blank %}
+          <div class="mega-menu-custom__promo-thumbs">
+            {% for i in (1..5) %}
+              <img
+                src="{{ block.settings.promo_thumbnail_image | image_url: width: 162 }}"
+                alt=""
+                width="81"
+                height="53"
+                loading="lazy"
+                class="mega-menu-custom__promo-thumb"
+              >
+            {% endfor %}
+          </div>
+        {% endif %}
         <span class="mega-menu-custom__promo-overlay"></span>
         <span class="mega-menu-custom__promo-title mega-menu-custom__promo-title--dark">
           {{ block.settings.promo_title_1 }}
@@ -334,5 +348,23 @@
 
   .mega-menu-custom__promo-title--dark {
     color: #3F2F27;
+  }
+
+  .mega-menu-custom__promo-thumbs {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-template-columns: repeat(3, 81px);
+    gap: 8px;
+    z-index: 2;
+  }
+
+  .mega-menu-custom__promo-thumb {
+    width: 81px;
+    height: 53px;
+    object-fit: cover;
+    border-radius: 4px;
   }
 {% endstylesheet %}

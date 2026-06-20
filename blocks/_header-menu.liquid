@@ -719,6 +719,26 @@
   .menu-list__list-item:not(:has([aria-expanded='true'])) > .menu-list__submenu product-component {
     display: none;
   }
+
+  /* Nav link font overrides to match Figma (Lexend 700, -0.25px letter-spacing) */
+  .menu-list__link {
+    font-weight: 700;
+    letter-spacing: -0.25px;
+  }
+
+  /* Nav link spacing to match Figma 10px item padding + 24px gap */
+  .menu-list__link-title {
+    padding-inline: 22px;
+  }
+
+  .overflow-menu::part(list) {
+    margin-inline: -22px;
+  }
+
+  /* Header row padding to match Figma 72px nav bar height (20px vertical padding) */
+  .header {
+    --header-padding: 20px;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -970,6 +990,12 @@
       "type": "url",
       "id": "promo_link_2",
       "label": "Promo link 2",
+      "visible_if": "{{ block.settings.menu_style == 'custom' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_thumbnail_image",
+      "label": "Promo thumbnails image",
       "visible_if": "{{ block.settings.menu_style == 'custom' }}"
     },
     {
