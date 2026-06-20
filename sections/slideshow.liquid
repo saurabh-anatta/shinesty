@@ -91,6 +91,81 @@
   %}
 </div>
 
+{%- if section.settings.nav_active_color != blank or section.settings.nav_inactive_color != blank -%}
+  {% style %}
+    /* Slide aspect ratio for Figma proportions */
+    .shopify-section-{{ section.id }} slideshow-slide {
+      aspect-ratio: 1440 / 580;
+    }
+
+    {% if section.settings.nav_active_color != blank %}
+      /* Active dot color */
+      .shopify-section-{{ section.id }} .slideshow-controls__dots button[aria-selected='true']::after {
+        background-color: {{ section.settings.nav_active_color }};
+        box-shadow: inset 0 0 0 1px {{ section.settings.nav_active_color }};
+      }
+
+      /* Arrow icon color */
+      .shopify-section-{{ section.id }} .slideshow-control--previous svg,
+      .shopify-section-{{ section.id }} .slideshow-control--next svg {
+        color: {{ section.settings.nav_active_color }};
+      }
+    {% endif %}
+
+    {% if section.settings.nav_inactive_color != blank %}
+      /* Inactive dot color with 0.6 opacity */
+      .shopify-section-{{ section.id }} .slideshow-controls__dots button::after {
+        background-color: {{ section.settings.nav_inactive_color }};
+        opacity: 0.6;
+      }
+
+      /* Re-apply active dot at full opacity */
+      {% if section.settings.nav_active_color != blank %}
+        .shopify-section-{{ section.id }} .slideshow-controls__dots button[aria-selected='true']::after {
+          opacity: 1;
+        }
+      {% endif %}
+
+      /* Arrow circle background */
+      .shopify-section-{{ section.id }} .slideshow-control--previous,
+      .shopify-section-{{ section.id }} .slideshow-control--next {
+        background-color: {{ section.settings.nav_inactive_color }};
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Play/pause icon color */
+      .shopify-section-{{ section.id }} .slideshow-control.icon-pause,
+      .shopify-section-{{ section.id }} .slideshow-control.icon-play {
+        color: {{ section.settings.nav_inactive_color }};
+        opacity: 0.7;
+      }
+    {% endif %}
+
+    /* Remove mix-blend-mode when custom nav colors are set */
+    .shopify-section-{{ section.id }} slideshow-controls:has(.slideshow-controls__dots),
+    .shopify-section-{{ section.id }} slideshow-component[autoplay] slideshow-controls {
+      mix-blend-mode: normal;
+    }
+
+    /* Button styling within slides */
+    .shopify-section-{{ section.id }} .slideshow-section .button-custom {
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: var(--font-body--family);
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1.25rem;
+      padding: 12px 16px;
+    }
+  {% endstyle %}
+{%- endif -%}
+
 {% stylesheet %}
   .slideshow-section {
     slideshow-arrows .slideshow-control:first-of-type {
@@ -372,6 +447,18 @@
         }
       ],
       "default": "dots"
+    },
+    {
+      "type": "color",
+      "id": "nav_active_color",
+      "label": "Active indicator color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "nav_inactive_color",
+      "label": "Inactive indicator color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "checkbox",

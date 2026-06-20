@@ -9,84 +9,227 @@
  */
 {
   "sections": {
-    "hero_jVaWmY": {
-      "type": "hero",
+    "hero_slideshow": {
+      "type": "slideshow",
+      "settings": {
+        "display_mode": "full_frame",
+        "section_width": "full-width",
+        "slide_height": "medium",
+        "content_position": "on-media",
+        "icons_style": "arrow",
+        "icons_shape": "circle",
+        "slideshow_controls_style": "dots",
+        "nav_active_color": "#D53E27",
+        "nav_inactive_color": "#FDF8F2",
+        "autoplay": true,
+        "autoplay_speed": 4,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      },
       "blocks": {
-        "text_YLPk4p": {
-          "type": "text",
-          "name": "t:names.heading",
+        "slide_1": {
+          "type": "_slide",
           "settings": {
-            "text": "<p>Browse our latest products</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "#ffffff",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/hero-carousel-video-home-page-I78251637824714.png",
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "toggle_overlay": false,
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 80,
+            "padding-inline-end": 48
           },
-          "blocks": {}
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h1>Fart Filtering Underwear</h1>",
+                "type_preset": "h1",
+                "text_color": "#FDF8F2",
+                "width": "fit-content"
+              }
+            },
+            "subtext": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Kill odor at the molecular level with fart-proof underwear</p>",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.125rem",
+                "line_height": "normal",
+                "text_color": "#FDF8F2",
+                "width": "fit-content"
+              }
+            },
+            "button_group": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row",
+                "gap": 16
+              },
+              "blocks": {
+                "btn_men": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Men",
+                    "link": "shopify://collections/all",
+                    "style_class": "button-custom",
+                    "custom_button_background": "#D53E27",
+                    "custom_button_text": "#FDF8F2",
+                    "custom_button_border": "#D53E27"
+                  }
+                },
+                "btn_women": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Women",
+                    "link": "shopify://collections/all",
+                    "style_class": "button-custom",
+                    "custom_button_background": "#D53E27",
+                    "custom_button_text": "#FDF8F2",
+                    "custom_button_border": "#D53E27"
+                  }
+                }
+              },
+              "block_order": ["btn_men", "btn_women"]
+            }
+          },
+          "block_order": ["heading", "subtext", "button_group"]
         },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
+        "slide_2": {
+          "type": "_slide",
           "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-custom",
-            "custom_button_background": "rgba(0, 0, 0, 0)",
-            "custom_button_text": "#ffffff",
-            "custom_button_border": "#ffffff",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/hero-with-1-cta-home-page-I78251637824591.jpg",
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "toggle_overlay": true,
+            "overlay_color": "#0000006B",
+            "overlay_style": "gradient",
+            "gradient_direction": "to right",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 80,
+            "padding-inline-end": 48
           },
-          "blocks": {}
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h1>Luxury Starts Underneath</h1>",
+                "type_preset": "h1",
+                "text_color": "#FDF8F2",
+                "width": "fit-content"
+              }
+            },
+            "subtext": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Fresh Prints for Fresh Problems.</p>",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.125rem",
+                "line_height": "normal",
+                "text_color": "#FDF8F2",
+                "width": "fit-content"
+              }
+            },
+            "btn_arrivals": {
+              "type": "button",
+              "settings": {
+                "label": "Shop New Arrivals",
+                "link": "shopify://collections/all",
+                "style_class": "button-custom",
+                "custom_button_background": "#D53E27",
+                "custom_button_text": "#FDF8F2",
+                "custom_button_border": "#D53E27"
+              }
+            }
+          },
+          "block_order": ["heading", "subtext", "btn_arrivals"]
+        },
+        "slide_3": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/hero-with-2-ctas-home-page-I78251637824245.jpg",
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "toggle_overlay": true,
+            "overlay_color": "#54726D80",
+            "overlay_style": "gradient",
+            "gradient_direction": "to right",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 80,
+            "padding-inline-end": 48
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h1>Serious Comfort. Zero Boring.</h1>",
+                "type_preset": "h1",
+                "text_color": "#FFFFFF",
+                "width": "fit-content"
+              }
+            },
+            "subtext": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Your Pants Are Hiding a Masterpiece</p>",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.125rem",
+                "line_height": "normal",
+                "text_color": "#FFFFFF",
+                "width": "fit-content"
+              }
+            },
+            "button_group": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row",
+                "gap": 16
+              },
+              "blocks": {
+                "btn_men": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Men",
+                    "link": "shopify://collections/all",
+                    "style_class": "button-custom",
+                    "custom_button_background": "#D53E27",
+                    "custom_button_text": "#FDF8F2",
+                    "custom_button_border": "#D53E27"
+                  }
+                },
+                "btn_women": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Women",
+                    "link": "shopify://collections/all",
+                    "style_class": "button-custom",
+                    "custom_button_background": "#FDF8F2",
+                    "custom_button_text": "#D53E27",
+                    "custom_button_border": "#FDF8F2"
+                  }
+                }
+              },
+              "block_order": ["btn_men", "btn_women"]
+            }
+          },
+          "block_order": ["heading", "subtext", "button_group"]
         }
       },
-      "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
-      ],
-      "name": "t:names.hero",
-      "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72
-      }
+      "block_order": ["slide_1", "slide_2", "slide_3"]
     },
     "product_list_fa6P9H": {
       "type": "product-list",
@@ -276,7 +419,7 @@
     }
   },
   "order": [
-    "hero_jVaWmY",
+    "hero_slideshow",
     "product_list_fa6P9H"
   ]
 }
