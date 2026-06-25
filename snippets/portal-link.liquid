@@ -1,0 +1,59 @@
+{%- comment -%}
+  Storefront entry point into the Recharge Affinity customer portal.
+  Renders a "Manage Subscriptions" link for logged-in customers.
+
+  Usage: {% render 'portal-link' %}
+  Place on an account page template or section where subscribers should
+  access the portal.
+
+  Requires:
+  - Recharge storefront SDK to be loaded on the page
+  - Customer to be logged in
+  - Recharge Affinity portal to be embedded in the Shopify storefront
+{%- endcomment -%}
+
+{%- if customer -%}
+  <portal-link class="portal-link">
+    <span class="portal-link__loading visually-hidden">Loading portal link...</span>
+  </portal-link>
+
+  <script>
+    (function() {
+      if (typeof customElements.get('portal-link') !== 'undefined') return;
+
+      customElements.define('portal-link', class extends HTMLElement {
+        async connectedCallback() {
+          try {
+            if (typeof recharge === 'undefined') {
+              console.warn('[portal-link] Recharge SDK not available.');
+              return;
+            }
+
+            recharge.init({
+              storefrontAccessToken: 'strfnt_472024372209ef3edd01aa9f01631acc8ea24024a9d41e00f2e2ce524de076ba'
+            });
+
+            const session = await recharge.auth.loginShopifyAppProxy();
+            const access = await recharge.customer.getCustomerPortalAccess(session);
+
+            if (!access || !access.portal_url) {
+              console.warn('[portal-link] Could not retrieve portal URL.');
+              return;
+            }
+
+            const link = document.createElement('a');
+            link.href = access.portal_url;
+            link.className = 'portal-link__anchor button';
+            link.textContent = 'Manage Subscriptions';
+            this.appendChild(link);
+
+            const loadingEl = this.querySelector('.portal-link__loading');
+            if (loadingEl) loadingEl.remove();
+          } catch (error) {
+            console.error('[portal-link] Error initializing portal link:', error);
+          }
+        }
+      });
+    })();
+  </script>
+{%- endif -%}

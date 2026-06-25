@@ -1,0 +1,452 @@
+{%- comment -%}
+  Recharge Affinity customer portal customizations.
+  Rendered ONLY on /tools/recurring pages via the guard in layout/theme.liquid.
+
+  Contains three blocks in order:
+  1. <style> — brand CSS targeting stable .recharge-* classes
+  2. <script type="text/html"> slot templates (none currently needed)
+  3. <script> — SDK event listeners placeholder
+{%- endcomment -%}
+
+<style>
+  /* =========================================================================
+     FT System font — requires ft-system-regular.woff2 and ft-system-light.woff2
+     to be uploaded to assets/. Falls back to Lexend (theme body font).
+     ========================================================================= */
+  @font-face {
+    font-family: 'FT System';
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+    src: url({{ 'ft-system-light.woff2' | asset_url }}) format('woff2');
+  }
+
+  @font-face {
+    font-family: 'FT System';
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url({{ 'ft-system-regular.woff2' | asset_url }}) format('woff2');
+  }
+
+  /* Roboto Mono for frequency badge pills (e.g. "EVERY 3 WEEKS") */
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap');
+
+  /* =========================================================================
+     Portal CSS custom properties
+     ========================================================================= */
+  :root {
+    --rc-bg: #F2F7FB;
+    --rc-card-bg: #FFFFFF;
+    --rc-primary: #3383C5;
+    --rc-primary-hover: #2970A8;
+    --rc-text: #202635;
+    --rc-text-accent: #24293B;
+    --rc-link: #0064B7;
+    --rc-muted: #A6A8AE;
+    --rc-light-blue: #ECF7FF;
+    --rc-border: #DDE2E7;
+    --rc-badge-text: #ECF7FF;
+    --rc-overlay: rgba(32, 38, 53, 0.6);
+    --rc-font-family: 'FT System', 'Lexend', sans-serif;
+    --rc-font-mono: 'Roboto Mono', monospace;
+    --rc-nav-active-bg: linear-gradient(90deg, rgba(193, 239, 250, 0.3) 0%, rgba(141, 206, 249, 0.3) 100%);
+  }
+
+  /* =========================================================================
+     Portal page background
+     ========================================================================= */
+  [data-recharge-portal],
+  .recharge-portal,
+  body[class*="recharge"] {
+    background-color: var(--rc-bg);
+  }
+
+  /* =========================================================================
+     Typography — headings
+     ========================================================================= */
+  .recharge-heading {
+    font-family: var(--rc-font-family);
+    color: var(--rc-text);
+    letter-spacing: -0.36px;
+  }
+
+  /* =========================================================================
+     Typography — body text
+     ========================================================================= */
+  .recharge-text {
+    font-family: var(--rc-font-family);
+    color: var(--rc-text);
+  }
+
+  /* =========================================================================
+     Buttons — primary (pill-shaped, filled)
+     ========================================================================= */
+  .recharge-button {
+    background-color: var(--rc-primary);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 57px;
+    padding: 10px 34px 13px 34px;
+    font-family: var(--rc-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px;
+    letter-spacing: 0;
+    text-align: center;
+    box-shadow: none;
+  }
+
+  .recharge-button:hover {
+    background-color: var(--rc-primary-hover);
+    color: #FFFFFF;
+  }
+
+  /* Secondary / outline buttons */
+  .recharge-button--secondary,
+  .recharge-button[data-variant="secondary"] {
+    background-color: transparent;
+    color: var(--rc-text);
+    border: 1px solid var(--rc-text);
+    border-radius: 57px;
+    padding: 10px 28px 13px 28px;
+  }
+
+  .recharge-button--secondary:hover,
+  .recharge-button[data-variant="secondary"]:hover {
+    background-color: var(--rc-light-blue);
+    color: var(--rc-text);
+  }
+
+  /* Text / link buttons */
+  .recharge-button--text,
+  .recharge-button[data-variant="text"] {
+    background-color: transparent;
+    color: var(--rc-text);
+    border: none;
+    border-radius: 0;
+    padding: 10px;
+    font-family: var(--rc-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px;
+    text-decoration: underline;
+  }
+
+  .recharge-button--text:hover,
+  .recharge-button[data-variant="text"]:hover {
+    background-color: transparent;
+    color: var(--rc-text-accent);
+  }
+
+  /* =========================================================================
+     Cards
+     ========================================================================= */
+  .recharge-card {
+    background: var(--rc-card-bg);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  /* =========================================================================
+     Navigation sidebar — active and inactive items
+     ========================================================================= */
+  .recharge-section-navigation .recharge-button,
+  .recharge-component-navigation .recharge-button {
+    border-radius: 0;
+    font-family: var(--rc-font-family);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 25px;
+    padding: 23px 24px;
+  }
+
+  .recharge-section-navigation .recharge-button[aria-current="page"],
+  .recharge-section-navigation .recharge-button.active,
+  .recharge-component-navigation .recharge-button[aria-current="page"],
+  .recharge-component-navigation .recharge-button.active {
+    background: var(--rc-nav-active-bg);
+    color: var(--rc-link);
+    border: none;
+  }
+
+  .recharge-section-navigation .recharge-button:not([aria-current="page"]):not(.active),
+  .recharge-component-navigation .recharge-button:not([aria-current="page"]):not(.active) {
+    background-color: var(--rc-card-bg);
+    color: var(--rc-text);
+    border: none;
+  }
+
+  /* =========================================================================
+     Links
+     ========================================================================= */
+  .recharge-text a,
+  a.recharge-text {
+    color: var(--rc-link);
+  }
+
+  /* =========================================================================
+     Frequency badge / pill
+     ========================================================================= */
+  .recharge-component-frequency-badge,
+  .recharge-component-subscription-badge {
+    background-color: var(--rc-primary);
+    border-radius: 42px;
+    color: var(--rc-badge-text);
+    font-family: var(--rc-font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    text-transform: uppercase;
+    padding: 4px 6px;
+  }
+
+  /* Discount code badge */
+  .recharge-component-discount-badge {
+    background-color: var(--rc-text);
+    border-radius: 42px;
+    color: var(--rc-badge-text);
+    font-family: var(--rc-font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    padding: 4px 3px;
+  }
+
+  /* =========================================================================
+     Subscription card product details
+     ========================================================================= */
+  .recharge-component-subscription-card .recharge-heading {
+    font-family: var(--rc-font-family);
+    font-weight: 350;
+    font-size: 18px;
+    line-height: 25px;
+    color: var(--rc-text-accent);
+  }
+
+  .recharge-component-subscription-card .recharge-text {
+    font-family: var(--rc-font-family);
+    font-weight: 350;
+    font-size: 16px;
+    line-height: 22px;
+    color: var(--rc-text);
+  }
+
+  /* =========================================================================
+     Product image thumbnail area
+     ========================================================================= */
+  .recharge-component-product-image {
+    background-color: var(--rc-bg);
+    border-radius: 0;
+  }
+
+  /* =========================================================================
+     Order summary rows
+     ========================================================================= */
+  .recharge-component-order-summary .recharge-text {
+    font-family: var(--rc-font-family);
+    font-weight: 350;
+    font-size: 16px;
+    line-height: 22px;
+    color: var(--rc-text);
+  }
+
+  .recharge-component-order-summary .recharge-heading {
+    font-family: var(--rc-font-family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    color: var(--rc-text);
+  }
+
+  /* =========================================================================
+     Modal overlay and dialog
+     ========================================================================= */
+  .recharge-component-modal-overlay {
+    background-color: var(--rc-overlay);
+  }
+
+  .recharge-component-modal {
+    background-color: var(--rc-card-bg);
+    border-radius: 0;
+    padding: 24px;
+  }
+
+  .recharge-component-modal .recharge-heading {
+    font-family: var(--rc-font-family);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0.2px;
+    color: var(--rc-text);
+  }
+
+  .recharge-component-modal .recharge-text {
+    font-family: var(--rc-font-family);
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 27px;
+    letter-spacing: 0.17px;
+    color: var(--rc-text);
+  }
+
+  /* Modal info message */
+  .recharge-component-modal .recharge-component-info-message {
+    border: 1px solid var(--rc-border);
+    border-radius: 0;
+    padding: 11px 16px;
+  }
+
+  /* Modal radio options */
+  .recharge-component-modal .recharge-component-radio-option {
+    background-color: var(--rc-light-blue);
+    border-radius: 0;
+    padding: 11px 16px;
+    font-family: var(--rc-font-family);
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 27px;
+    letter-spacing: 0.17px;
+    color: var(--rc-text);
+  }
+
+  /* Modal full-width save button */
+  .recharge-component-modal .recharge-button {
+    border-radius: 57px;
+    padding: 10px 34px 13px 34px;
+  }
+
+  /* Modal cancel link */
+  .recharge-component-modal .recharge-button--text,
+  .recharge-component-modal .recharge-button[data-variant="text"] {
+    border-radius: 0;
+    padding: 10px;
+    text-decoration: underline;
+    font-family: var(--rc-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px;
+    color: var(--rc-text);
+  }
+
+  /* =========================================================================
+     Skip confirmation modal
+     ========================================================================= */
+  .recharge-component-skip-modal .recharge-heading {
+    font-family: var(--rc-font-family);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: -0.2px;
+    color: var(--rc-text);
+  }
+
+  .recharge-component-skip-modal .recharge-text {
+    font-family: var(--rc-font-family);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--rc-text);
+  }
+
+  /* =========================================================================
+     Tabs (Active / Inactive)
+     ========================================================================= */
+  .recharge-component-tabs .recharge-button[aria-selected="true"],
+  .recharge-component-tabs .recharge-button.active {
+    font-family: var(--rc-font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--rc-text);
+  }
+
+  .recharge-component-tabs .recharge-button[aria-selected="false"],
+  .recharge-component-tabs .recharge-button:not(.active) {
+    font-family: var(--rc-font-family);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--rc-muted);
+  }
+
+  /* =========================================================================
+     Back button
+     ========================================================================= */
+  .recharge-component-back-button .recharge-text {
+    font-family: var(--rc-font-family);
+    font-weight: 350;
+    font-size: 18px;
+    line-height: 25px;
+    color: var(--rc-text-accent);
+  }
+
+  .recharge-component-back-button .recharge-button {
+    background-color: var(--rc-light-blue);
+    border-radius: 50%;
+    padding: 0;
+    border: none;
+  }
+
+  /* =========================================================================
+     Payment / address edit links
+     ========================================================================= */
+  .recharge-component-edit-link .recharge-text,
+  .recharge-component-edit-link a {
+    font-family: var(--rc-font-family);
+    font-weight: 350;
+    font-size: 16px;
+    line-height: 22px;
+    color: var(--rc-link);
+  }
+
+  /* =========================================================================
+     "Manage This Subscription" links
+     ========================================================================= */
+  .recharge-component-manage-link .recharge-text,
+  .recharge-component-manage-link a {
+    font-family: var(--rc-font-family);
+    font-weight: 350;
+    font-size: 16px;
+    line-height: 22px;
+    color: var(--rc-link);
+  }
+
+  /* =========================================================================
+     Next order date heading
+     ========================================================================= */
+  .recharge-section-next-order .recharge-heading {
+    font-family: var(--rc-font-family);
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 47px;
+    letter-spacing: -0.36px;
+    color: var(--rc-text);
+  }
+
+  .recharge-section-next-order .recharge-text {
+    font-family: var(--rc-font-family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    color: var(--rc-text);
+  }
+
+  /* =========================================================================
+     Subscriptions page heading
+     ========================================================================= */
+  .recharge-section-subscriptions .recharge-heading {
+    font-family: var(--rc-font-family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    color: var(--rc-text);
+  }
+</style>
+
+<script>
+  /* Recharge Affinity SDK event listeners placeholder.
+     The `recharge` global is already injected on portal pages — do NOT add a second SDK loader.
+     Add event handlers here when slot-injected widgets need initialization. */
+</script>
