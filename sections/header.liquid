@@ -95,6 +95,13 @@
   endcapture
 
   capture actions
+    if section.settings.right_link_text != blank
+      echo '<a href="'
+      echo section.settings.right_link_url
+      echo '" class="header__right-link">'
+      echo section.settings.right_link_text
+      echo '</a>'
+    endif
     render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section
   endcapture
 
@@ -1165,6 +1172,42 @@
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
   }
+
+  /* Custom header overrides */
+  .header__row--top {
+    --border-bottom-color: #DDE7FF;
+  }
+
+  @media screen and (min-width: 750px) {
+    .header__columns.spacing-style {
+      padding-inline: 48px;
+    }
+  }
+
+  .header__column--right {
+    gap: 16px;
+  }
+
+  /* Right navigation link */
+  .header__right-link {
+    font-family: 'Silka', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #000D8C;
+    text-decoration: none;
+    display: none;
+    white-space: nowrap;
+  }
+
+  @media screen and (min-width: 750px) {
+    .header__right-link {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
 {% endstylesheet %}
 
 {% unless request.design_mode %}
@@ -1521,6 +1564,21 @@
       "label": "t:settings.bottom_border_color",
       "placeholder": "t:settings.default",
       "visible_if": "{{ section.settings.border_width > 0 }}"
+    },
+    {
+      "type": "header",
+      "content": "Right navigation link"
+    },
+    {
+      "type": "text",
+      "id": "right_link_text",
+      "label": "Right link text",
+      "default": "About Us"
+    },
+    {
+      "type": "url",
+      "id": "right_link_url",
+      "label": "Right link URL"
     },
     {
       "type": "header",

@@ -123,6 +123,45 @@
     endunless
   %}
 
+  /* Custom @font-face for Silka */
+  @font-face {
+    font-family: 'Silka';
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url({{ 'Silka-Regular.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Silka';
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    src: url({{ 'Silka-Medium.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Silka';
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    src: url({{ 'Silka-SemiBold.woff2' | asset_url }}) format('woff2');
+  }
+
+  /* Custom @font-face for Myriad Pro */
+  @font-face {
+    font-family: 'Myriad Pro';
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url({{ 'MyriadPro-Regular.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Myriad Pro';
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    src: url({{ 'MyriadPro-Semibold.woff2' | asset_url }}) format('woff2');
+  }
+
   :root {
     /* Page Layout */
     --sidebar-width: 25rem;
@@ -679,6 +718,10 @@
     --cart-secondary-font-family: var(--font-{{ settings.cart_price_font }}--family);
     --cart-secondary-font-style: var(--font-{{ settings.cart_price_font }}--style);
     --cart-secondary-font-weight: var(--font-{{ settings.cart_price_font }}--weight);
+
+    /* Custom font overrides — placed AFTER font_picker-generated variables to win the cascade */
+    --font-body--family: 'Silka', sans-serif;
+    --font-heading--family: 'Myriad Pro', sans-serif;
   }
 {% endstyle %}
 

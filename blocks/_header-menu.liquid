@@ -147,6 +147,20 @@
           {%- endif -%}
         </li>
       {% endfor %}
+      {% if block_settings.cta_text != blank %}
+        <li
+          class="menu-list__list-item menu-list__list-item--cta"
+          role="presentation"
+        >
+          <a
+            href="{{ block_settings.cta_url }}"
+            class="menu-list__cta-pill"
+            style="--cta-bg: {{ block_settings.cta_background_color }};"
+          >
+            {{ block_settings.cta_text }}
+          </a>
+        </li>
+      {% endif %}
       <li
         class="menu-list__list-item"
         role="presentation"
@@ -699,6 +713,59 @@
   .menu-list__list-item:not(:has([aria-expanded='true'])) > .menu-list__submenu product-component {
     display: none;
   }
+
+  /* Custom nav overrides */
+  .menu-list {
+    --menu-horizontal-gap: 2rem;
+  }
+
+  .menu-list__link {
+    color: #000D8C;
+  }
+
+  .menu-list__link-title {
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+
+  /* CTA pill link */
+  .menu-list__list-item--cta {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-list__cta-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cta-bg, #9DE3FF);
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #000D8C;
+    white-space: nowrap;
+  }
+
+  /* Navigation bar mobile pills */
+  .menu-list--mobile .menu-list__list .menu-list__item {
+    border: 1px solid #DDE7FF;
+    border-radius: 20px;
+    padding: 6px 12px;
+    background: #F0F4FF;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #000D8C;
+    white-space: nowrap;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -914,6 +981,27 @@
       "type": "checkbox",
       "id": "navigation_bar",
       "label": "t:settings.navigation_bar"
+    },
+    {
+      "type": "header",
+      "content": "CTA link"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA link text",
+      "default": "Find Your Detergent"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA link URL"
+    },
+    {
+      "type": "color",
+      "id": "cta_background_color",
+      "label": "CTA background color",
+      "default": "#9DE3FF"
     },
     {
       "type": "color",
