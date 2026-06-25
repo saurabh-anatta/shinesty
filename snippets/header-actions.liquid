@@ -55,6 +55,15 @@
   {% endif %}
   {{- block.shopify_attributes -}}
 >
+  <button
+    class="header-actions__drawer-toggle button-unstyled"
+    aria-label="Menu"
+    type="button"
+    on:click="#Details-menu-drawer-container/toggle"
+  >
+    <img src="{{ 'icon-burger.svg' | asset_url }}" alt="Menu" width="24" height="24" class="header-action__icon header-action__icon--burger" />
+  </button>
+
   {% if shop.customer_accounts_enabled %}
     {% liquid
       assign account_actions_style = ''
@@ -338,5 +347,23 @@
     .header-action__icon--account {
       display: block;
     }
+  }
+
+  /* Mobile drawer toggle rendered inside header-actions */
+  .header-actions__drawer-toggle {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .header-actions__drawer-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .header-action__icon--burger {
+    width: 24px;
+    height: 24px;
   }
 {% endstylesheet %}
