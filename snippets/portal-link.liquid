@@ -1,0 +1,73 @@
+{%- comment -%}
+  Recharge storefront portal link.
+  Renders a "Manage subscriptions" link for logged-in customers.
+  Uses the Recharge storefront SDK (loaded by the Recharge app on storefront pages)
+  to authenticate and retrieve the portal URL.
+
+  Usage: {% render 'portal-link' %}
+  Place on account pages or customer-facing pages — NOT on portal pages.
+{%- endcomment -%}
+
+{%- if customer -%}
+  <portal-link class="recharge-portal-link-wrapper"></portal-link>
+
+  <style>
+    .recharge-portal-link {
+      display: inline-block;
+      background-color: #0B1F4F;
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      font-family: var(--font-body--family);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 24px;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .recharge-portal-link:hover {
+      background-color: #162D5E;
+      color: #fff;
+    }
+
+    .recharge-portal-link:focus-visible {
+      outline: 2px solid #0B1F4F;
+      outline-offset: 2px;
+    }
+  </style>
+
+  <script>
+    (function() {
+      if (customElements.get('portal-link')) return;
+
+      customElements.define('portal-link', class extends HTMLElement {
+        async connectedCallback() {
+          try {
+            if (typeof recharge === 'undefined' || !recharge) return;
+
+            recharge.init({
+              storefrontAccessToken: 'strfnt_472024372209ef3edd01aa9f01631acc8ea24024a9d41e00f2e2ce524de076ba'
+            });
+
+            const session = await recharge.auth.loginShopifyAppProxy();
+            const access = await recharge.customer.getCustomerPortalAccess(session);
+
+            if (!access || !access.portal_url) return;
+
+            const link = document.createElement('a');
+            link.href = access.portal_url;
+            link.className = 'recharge-portal-link';
+            link.textContent = 'Manage subscriptions';
+            this.appendChild(link);
+          } catch (e) {
+            /* Fail silently — the link simply won't render if the SDK
+               is unavailable or the customer has no Recharge account. */
+          }
+        }
+      });
+    })();
+  </script>
+{%- endif -%}

@@ -1,0 +1,115 @@
+{%- comment -%}
+  Recharge Affinity portal brand-match CSS.
+  Loaded only on /tools/recurring pages via layout/theme.liquid guard.
+  Targets ONLY stable .recharge-* class selectors — never hashed classes.
+  Cosmetic overrides only — no layout restructuring, no display:none.
+{%- endcomment -%}
+
+<style>
+  /* ============================================================
+     Recharge Affinity Portal — Brand-Match Styling
+     ============================================================ */
+
+  /* --- Typography --- */
+  .recharge-heading {
+    font-family: var(--font-heading--family);
+    color: #1a1a2e;
+    font-weight: 700;
+  }
+
+  .recharge-text {
+    font-family: var(--font-body--family);
+    color: #333333;
+  }
+
+  /* --- Buttons --- */
+  .recharge-button {
+    background-color: #0B1F4F;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .recharge-button:hover {
+    background-color: #162D5E;
+  }
+
+  .recharge-button:focus-visible {
+    outline: 2px solid #0B1F4F;
+    outline-offset: 2px;
+  }
+
+  /* --- Cards --- */
+  .recharge-card {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    box-shadow: none;
+  }
+
+  /* --- Info banners / section highlights --- */
+  .recharge-section-info,
+  .recharge-component-info {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+
+  /* --- Navigation items --- */
+  .recharge-component-nav-item {
+    font-family: var(--font-body--family);
+    color: #333333;
+  }
+
+  /* --- Price display --- */
+  .recharge-component-price-original {
+    text-decoration: line-through;
+    color: #888888;
+  }
+
+  .recharge-component-price-current {
+    color: #1a1a2e;
+    font-weight: 600;
+  }
+
+  /* --- Links --- */
+  .recharge-component-link {
+    color: #0B1F4F;
+  }
+
+  .recharge-component-link:hover {
+    color: #162D5E;
+  }
+</style>
+
+<script>
+  /*
+   * Recharge Affinity Portal — SDK Event Handlers
+   *
+   * The `recharge` global is already injected on portal pages by Recharge.
+   * Do NOT add a second SDK loader script here.
+   *
+   * To initialize interactive slot content, listen for the mount event:
+   *
+   *   document.addEventListener('Recharge::slot::mounted', function(event) {
+   *     if (event.detail.name === 'overview.header') {
+   *       var el = document.getElementById('my-widget');
+   *       if (!el) return;
+   *       // Initialize widget here
+   *     }
+   *   });
+   *
+   * Clean up on unmount if needed:
+   *
+   *   document.addEventListener('Recharge::slot::unmounted', function(event) {
+   *     // Tear down listeners / state
+   *   });
+   *
+   * Portal navigation fires Recharge::location::change.
+   * Action completion fires Recharge::action::* events.
+   */
+</script>
