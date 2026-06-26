@@ -31,7 +31,7 @@
           "type": "_slide",
           "settings": {
             "media_type_1": "image",
-            "image_1": "shopify://shop_images/hero-carousel-video-home-page-I78251637824714.png",
+            "image_1": "shopify://shop_images/hero-carousel-video-hero-section-I78251637824714.png",
             "content_direction": "column",
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
@@ -103,7 +103,7 @@
           "type": "_slide",
           "settings": {
             "media_type_1": "image",
-            "image_1": "shopify://shop_images/hero-with-1-cta-home-page-I78251637824591.jpg",
+            "image_1": "shopify://shop_images/hero-with-1-cta-hero-section-I78251637824591.jpg",
             "content_direction": "column",
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
@@ -157,7 +157,7 @@
           "type": "_slide",
           "settings": {
             "media_type_1": "image",
-            "image_1": "shopify://shop_images/hero-with-2-ctas-home-page-I78251637824245.jpg",
+            "image_1": "shopify://shop_images/hero-with-2-ctas-hero-section-I78251637824245.jpg",
             "content_direction": "column",
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
