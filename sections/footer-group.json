@@ -14,178 +14,320 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "group_wErUQf": {
+        "menu_shop": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer-shop",
+            "heading": "Shop",
+            "menu_spacing": 16,
+            "show_as_accordion": false,
+            "accordion_icon": "plus",
+            "accordion_dividers": false,
+            "heading_preset": "h3",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        },
+        "menu_about": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer-about-us",
+            "heading": "About Us",
+            "menu_spacing": 16,
+            "show_as_accordion": false,
+            "accordion_icon": "plus",
+            "accordion_dividers": false,
+            "heading_preset": "h3",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        },
+        "menu_care": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer-customer-care",
+            "heading": "Customer Care",
+            "menu_spacing": 16,
+            "show_as_accordion": false,
+            "accordion_icon": "plus",
+            "accordion_dividers": false,
+            "heading_preset": "h3",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        },
+        "menu_perks": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer-programs-perks",
+            "heading": "Programs & Perks",
+            "menu_spacing": 16,
+            "show_as_accordion": false,
+            "accordion_icon": "plus",
+            "accordion_dividers": false,
+            "heading_preset": "h3",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        },
+        "group_email": {
           "type": "group",
-          "name": "Join our email list",
           "settings": {
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
-            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 24,
             "width": "fill",
-            "custom_width": 100,
             "width_mobile": "fill",
-            "custom_width_mobile": 100,
             "height": "fit",
-            "custom_height": 100,
             "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
             "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
             "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
             "border_radius": 0,
-            "link": "",
             "open_in_new_tab": false,
-            "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
           "blocks": {
-            "text_pF6rVi": {
-              "type": "text",
-              "name": "Heading",
+            "checklist_block": {
+              "type": "_footer-checklist",
               "settings": {
-                "text": "<h2>Join our email list</h2>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h3",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
+                "heading": "Emails suck. Ours don't.",
+                "item_1": "Get 20% off your first order.",
+                "item_2": "Confirm you're a genius.",
+                "item_3": "Get award-winning product updates",
+                "heading_color": "#F9EFE1",
+                "item_color": "#FDF8F2",
+                "check_color": "#D53E27",
+                "check_text_color": "#FDF8F2"
+              }
             },
-            "text_HafH7P": {
-              "type": "text",
-              "name": "Text",
-              "settings": {
-                "text": "<p>Get exclusive deals and early access to new products.</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "email-signup_HafH7P": {
+            "email_signup": {
               "type": "email-signup",
-              "name": "Email Signup",
               "settings": {
                 "width": "fill",
-                "custom_width": 100,
                 "heading": "",
                 "heading_preset": "h3",
                 "border_style": "all",
                 "input_style": "custom",
-                "border_width": 1,
-                "border_radius": 100,
-                "input_background_color": "#333333",
-                "input_border_color": "",
+                "border_width": 0,
+                "border_radius": 4,
+                "input_background_color": "#FDF8F2",
+                "input_text_color": "#3F2F27",
+                "input_border_color": "#FDF8F2",
                 "input_type_preset": "paragraph",
-                "style_class": "button-secondary",
-                "custom_button_background": "#000000",
-                "custom_button_text": "#ffffff",
-                "custom_button_border": "#ffffff",
+                "style_class": "button-custom",
+                "custom_button_background": "#D53E27",
+                "custom_button_text": "#FFFFFF",
+                "custom_button_border": "#D53E27",
                 "display_type": "text",
-                "label": "Sign up",
+                "label": "Confirm you are a genious",
                 "integrated_button": false,
                 "button_type_preset": "paragraph",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              },
-              "blocks": {}
+              }
             }
           },
-          "block_order": [
-            "text_pF6rVi",
-            "text_HafH7P",
-            "email-signup_HafH7P"
-          ]
-        },
-        "menu_footer": {
-          "type": "menu",
+          "block_order": ["checklist_block", "email_signup"]
+        }
+      },
+      "block_order": [
+        "menu_shop",
+        "menu_about",
+        "menu_care",
+        "menu_perks",
+        "group_email"
+      ],
+      "settings": {
+        "section_width": "page-width",
+        "gap": 80,
+        "background_color": "#3F2F27",
+        "show_stripes": true,
+        "stripe_color_1": "#E82911",
+        "stripe_color_2": "#F4762E",
+        "stripe_color_3": "#F4A044",
+        "padding-block-start": 0,
+        "padding-block-end": 48
+      }
+    },
+    "footer_marquee": {
+      "type": "marquee",
+      "blocks": {
+        "text_1": {
+          "type": "text",
           "settings": {
-            "menu": "footer",
-            "heading": "",
-            "menu_spacing": 12,
-            "show_as_accordion": false,
-            "accordion_icon": "plus",
-            "accordion_dividers": false,
-            "heading_preset": "paragraph",
-            "link_preset": "paragraph",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "text": "<p>Underwear Worth Showing Off</p>",
+            "width": "fit-content",
+            "type_preset": "custom",
+            "font": "var(--font-heading--family)",
+            "font_size": "2rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "text_color": "#F9EFE1"
           }
         },
-        "menu_main": {
-          "type": "menu",
+        "img_1": {
+          "type": "image",
           "settings": {
-            "menu": "main-menu",
-            "heading": "",
-            "menu_spacing": 12,
-            "show_as_accordion": false,
-            "accordion_icon": "plus",
-            "accordion_dividers": false,
-            "heading_preset": "paragraph",
-            "link_preset": "paragraph",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "image": "shopify://shop_images/rectangle-3562-header-page-I264154562264154105256534693.png",
+            "image_ratio": "square",
+            "width": "fit-content",
+            "width_mobile": "fit-content"
+          }
+        },
+        "text_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Treat Your Package Right</p>",
+            "width": "fit-content",
+            "type_preset": "custom",
+            "font": "var(--font-heading--family)",
+            "font_size": "2rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "text_color": "#F9EFE1"
+          }
+        },
+        "img_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-3563-header-page-I264154562264154105256534695.png",
+            "image_ratio": "square",
+            "width": "fit-content",
+            "width_mobile": "fit-content"
+          }
+        },
+        "text_3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Ridiculously Comfortable</p>",
+            "width": "fit-content",
+            "type_preset": "custom",
+            "font": "var(--font-heading--family)",
+            "font_size": "2rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "text_color": "#F9EFE1"
+          }
+        },
+        "img_3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-3564-header-page-I264154562264154105256534697.png",
+            "image_ratio": "square",
+            "width": "fit-content",
+            "width_mobile": "fit-content"
+          }
+        },
+        "text_4": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Sexy Starts with Comfort</p>",
+            "width": "fit-content",
+            "type_preset": "custom",
+            "font": "var(--font-heading--family)",
+            "font_size": "2rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "text_color": "#F9EFE1"
+          }
+        },
+        "img_4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-3565-header-page-I264154562264154105256534711.png",
+            "image_ratio": "square",
+            "width": "fit-content",
+            "width_mobile": "fit-content"
+          }
+        },
+        "text_5": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Good Vibes. Great Prints.</p>",
+            "width": "fit-content",
+            "type_preset": "custom",
+            "font": "var(--font-heading--family)",
+            "font_size": "2rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "text_color": "#F9EFE1"
+          }
+        },
+        "img_5": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-3566-header-page-I264154562264154105256534717.png",
+            "image_ratio": "square",
+            "width": "fit-content",
+            "width_mobile": "fit-content"
+          }
+        },
+        "text_6": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Prints for Every Personality</p>",
+            "width": "fit-content",
+            "type_preset": "custom",
+            "font": "var(--font-heading--family)",
+            "font_size": "2rem",
+            "line_height": "tight",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "nowrap",
+            "text_color": "#F9EFE1"
           }
         }
       },
       "block_order": [
-        "group_wErUQf",
-        "menu_footer",
-        "menu_main"
+        "text_1",
+        "img_1",
+        "text_2",
+        "img_2",
+        "text_3",
+        "img_3",
+        "text_4",
+        "img_4",
+        "text_5",
+        "img_5",
+        "text_6"
       ],
-      "name": "t:names.footer",
       "settings": {
-        "section_width": "page-width",
-        "gap": 40,
-        "background_color": "#333333",
-        "padding-block-start": 36,
-        "padding-block-end": 36
+        "movement_direction": "reverse",
+        "background_color": "#3F2F27",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "gap_between_elements": 40
       }
     },
     "utilities": {
@@ -194,15 +336,15 @@
         "copyright": {
           "type": "footer-copyright",
           "settings": {
-            "show_powered_by": true,
-            "font_size": "0.75rem",
+            "show_powered_by": false,
+            "font_size": "1rem",
             "case": "none"
           }
         },
         "policy_list": {
           "type": "footer-policy-list",
           "settings": {
-            "font_size": "0.75rem",
+            "font_size": "1rem",
             "case": "none"
           }
         },
@@ -225,15 +367,16 @@
       "settings": {
         "section_width": "page-width",
         "gap": 24,
-        "background_color": "#333333",
-        "divider_thickness": 1,
-        "padding-block-start": 12,
-        "padding-block-end": 16
+        "background_color": "#3F2F27",
+        "divider_thickness": 0.5,
+        "padding-block-start": 24,
+        "padding-block-end": 24
       }
     }
   },
   "order": [
     "footer",
+    "footer_marquee",
     "utilities"
   ]
 }

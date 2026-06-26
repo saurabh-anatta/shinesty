@@ -93,13 +93,34 @@
       transform: translate3d(calc(-50% - (var(--marquee-gap) / 2)), 0, 0);
     }
   }
+
+  .marquee__repeated-items .image-block {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+  }
+
+  .marquee__repeated-items .image-block__image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+  }
+
+  .marquee__repeated-items .image-block .placeholder-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
 {% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:names.marquee",
   "disabled_on": {
-    "groups": ["header", "footer"]
+    "groups": ["header"]
   },
   "blocks": [
     {
@@ -113,6 +134,9 @@
     },
     {
       "type": "_divider"
+    },
+    {
+      "type": "image"
     }
   ],
   "settings": [

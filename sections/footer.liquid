@@ -4,28 +4,60 @@
   endif
 %}
 
+{%- if section.settings.show_stripes -%}
+  <div class="footer-stripes">
+    <div class="footer-stripes__band footer-stripes__band--1" style="background-color: {{ section.settings.stripe_color_1 }};"></div>
+    <div class="footer-stripes__band footer-stripes__band--2" style="background-color: {{ section.settings.stripe_color_2 }};"></div>
+    <div class="footer-stripes__band footer-stripes__band--3" style="background-color: {{ section.settings.stripe_color_3 }};"></div>
+  </div>
+{%- endif -%}
+
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
 <div
   class="section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 >
+  {%- liquid
+    assign footer_logo = section.settings.footer_logo
+    if footer_logo == blank
+      assign footer_logo = settings.logo_inverse
+    endif
+    if footer_logo == blank
+      assign footer_logo = settings.logo
+    endif
+  -%}
+  {%- if footer_logo != blank -%}
+    <div class="footer-logo-wrapper">
+      {{
+        footer_logo
+        | image_url: width: 600
+        | image_tag:
+          class: 'footer-logo',
+          loading: 'lazy',
+          alt: shop.name,
+          widths: '200,277,400,554',
+          sizes: '(max-width: 749px) 200px, 277px'
+      }}
+    </div>
+  {%- endif -%}
+
   {% liquid
     assign total_blocks = section.blocks.size
 
     # Grid layout calculations
-    assign grid_columns = total_blocks | at_most: 4
+    assign grid_columns = total_blocks | at_most: 5
 
     # Calculate last row counts using modulo arithmetic
     # last_row_count = (total_blocks - 1) % N + 1
-    assign last_row_count = total_blocks | minus: 1 | modulo: 4 | plus: 1
+    assign last_row_count = total_blocks | minus: 1 | modulo: grid_columns | plus: 1
     assign tablet_last_row_count = total_blocks | minus: 1 | modulo: 2 | plus: 1
 
     # Check if there are orphaned elements (single item in last row)
     assign has_isolated_grid_item_desktop = false
     assign has_isolated_grid_item_tablet = false
 
-    if total_blocks > 4 and last_row_count == 1
+    if total_blocks > grid_columns and last_row_count == 1
       assign has_isolated_grid_item_desktop = true
     endif
 
@@ -53,6 +85,41 @@
 </div>
 
 {% stylesheet %}
+  .footer-stripes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .footer-stripes__band {
+    width: 100%;
+  }
+
+  .footer-stripes__band--1 {
+    height: 19px;
+  }
+
+  .footer-stripes__band--2,
+  .footer-stripes__band--3 {
+    height: 7px;
+  }
+
+  .footer-logo-wrapper {
+    padding: 48px 0 40px;
+  }
+
+  .footer-logo {
+    max-width: 277px;
+    height: auto;
+    display: block;
+  }
+
+  @media screen and (max-width: 749px) {
+    .footer-logo {
+      max-width: 200px;
+    }
+  }
+
   .footer-content {
     contain: content;
     content-visibility: auto;
@@ -64,6 +131,39 @@
 
   .footer-content .menu__heading__default {
     font-weight: var(--font-heading--weight);
+    color: #F9EFE1;
+    font-size: 28px;
+    line-height: 28px;
+  }
+
+  .footer-content .menu__item {
+    color: #B59A8C;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.25px;
+  }
+
+  .footer-content .menu__item a {
+    color: inherit;
+  }
+
+  .footer-content .details-content {
+    margin-block-start: 24px;
+  }
+
+  .footer-content .menu__item + .menu__item {
+    --spacing--size: 16px;
+  }
+
+  .footer-content .email-signup__input-group:not(.email-signup__input-group--integrated) {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .footer-content .email-signup__button--text {
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   @media screen and (min-width: 750px) and (max-width: 989px) {
@@ -179,6 +279,46 @@
       "type": "color",
       "id": "background_color",
       "label": "t:settings.background_color"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo",
+      "label": "Footer logo"
+    },
+    {
+      "type": "header",
+      "content": "Stripes"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stripes",
+      "label": "Show stripes",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "stripe_color_1",
+      "label": "Stripe color 1",
+      "default": "#E82911",
+      "visible_if": "{{ section.settings.show_stripes }}"
+    },
+    {
+      "type": "color",
+      "id": "stripe_color_2",
+      "label": "Stripe color 2",
+      "default": "#F4762E",
+      "visible_if": "{{ section.settings.show_stripes }}"
+    },
+    {
+      "type": "color",
+      "id": "stripe_color_3",
+      "label": "Stripe color 3",
+      "default": "#F4A044",
+      "visible_if": "{{ section.settings.show_stripes }}"
     },
     {
       "type": "header",
