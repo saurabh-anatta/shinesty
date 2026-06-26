@@ -98,7 +98,7 @@
           },
           "blocks": {
             "checklist_block": {
-              "type": "_footer-checklist",
+              "type": "footer-checklist",
               "settings": {
                 "heading": "Emails suck. Ours don't.",
                 "item_1": "Get 20% off your first order.",
